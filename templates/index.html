@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>SmartHome Pro • Liquid Crystal Glass</title>
+    
+    <!-- PWA Settings -->
+    <link rel="manifest" href="/static/manifest.json">
+    <meta name="theme-color" content="#09120e">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+
+    <!-- Tailwind CSS with Liquid Crystal Glass Theme -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+              "surface": "#09120e",
+              "surface-dim": "#0c1511",
+              "surface-bright": "#323b36",
+              "surface-container-lowest": "#07100c",
+              "surface-container-low": "#141d19",
+              "surface-container": "#18221d",
+              "surface-container-high": "#232c27",
+              "surface-container-highest": "#2d3732",
+              "background": "#09120e",
+              "on-background": "#dbe5de",
+              "on-surface": "#dbe5de",
+              "on-surface-variant": "#b9ccb5",
+              "inverse-surface": "#dbe5de",
+              "inverse-on-surface": "#29322e",
+              "outline": "#849581",
+              "outline-variant": "#3b4b3a",
+              "surface-tint": "#00e55b",
+              "primary": "#edffe8",
+              "on-primary": "#003911",
+              "primary-container": "#00ff66",
+              "on-primary-container": "#007128",
+              "primary-fixed": "#6bff83",
+              "primary-fixed-dim": "#00e55b",
+              "secondary": "#afceb8",
+              "secondary-container": "#314d3c",
+              "on-secondary-container": "#9ebca7",
+              "secondary-fixed": "#caead4",
+              "secondary-fixed-dim": "#afceb8",
+              "tertiary": "#edffea",
+              "tertiary-container": "#95f2a2",
+              "tertiary-fixed": "#9af7a7",
+              "tertiary-fixed-dim": "#7eda8d",
+              "error": "#ffb4ab",
+              "error-container": "#93000a",
+              "on-error": "#690005",
+              "on-error-container": "#ffdad6"
+            },
+            "fontFamily": {
+              "headline": ["Space Grotesk", "sans-serif"],
+              "body": ["Inter", "sans-serif"]
+            }
+          }
+        }
+      }
+    </script>
+    
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body class="bg-background text-on-background font-body min-h-screen pb-32 selection:bg-primary-container/30 relative overflow-x-hidden">
+
+    <!-- Atmospheric Glow Background Elements -->
+    <div class="fixed top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-primary-container/10 rounded-full blur-[140px] pointer-events-none -z-10"></div>
+    <div class="fixed bottom-10 right-10 w-80 h-80 bg-tertiary-container/5 rounded-full blur-[120px] pointer-events-none -z-10"></div>
+
+    <!-- ======================================================================= -->
+    <!-- ATTRACTIVE FLOATING TOAST NOTIFICATION POPUP -->
+    <!-- ======================================================================= -->
+    <div id="toast-container" class="fixed top-5 left-1/2 -translate-x-1/2 z-50 pointer-events-none flex flex-col items-center w-full max-w-sm px-4">
+        <div id="toast-notification" onclick="dismissNotification()" class="pointer-events-auto cursor-pointer transform transition-all duration-300 ease-out -translate-y-12 opacity-0 scale-95 hidden w-full rounded-2xl glass-card p-3.5 flex items-center space-x-3.5 shadow-2xl border border-primary-container/35 bg-surface/90 backdrop-blur-3xl hover:border-primary-container/60">
+            <div id="toast-icon-box" class="w-10 h-10 rounded-xl bg-primary-container/20 text-primary-container border border-primary-container/30 flex items-center justify-center shrink-0 shadow-[0_0_15px_rgba(0,255,102,0.3)]">
+                <span class="material-symbols-outlined text-xl" id="toast-icon">check_circle</span>
+            </div>
+            <div class="flex-1 min-w-0">
+                <div class="flex items-center justify-between">
+                    <span id="toast-title" class="text-[10px] font-mono uppercase tracking-wider font-bold text-primary-fixed-dim">Hardware Command</span>
+                    <span id="toast-time" class="text-[10px] font-mono text-on-surface-variant">Live</span>
+                </div>
+                <p id="toast-message" class="text-xs font-semibold text-on-surface truncate mt-0.5">System message</p>
+            </div>
+            <button class="text-on-surface-variant hover:text-white transition-all pl-1">
+                <span class="material-symbols-outlined text-sm">close</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- ======================================================================= -->
+    <!-- TOP APP BAR -->
+    <!-- ======================================================================= -->
+    <header class="sticky top-0 z-40 w-full bg-surface/60 backdrop-blur-3xl border-b border-white/5 shadow-sm">
+        <div class="max-w-xl mx-auto flex justify-between items-center w-full px-4 py-3">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-full bg-surface-container-high border border-primary-container/30 flex items-center justify-center text-primary-container shadow-[0_0_12px_rgba(0,255,102,0.2)]">
+                    <span class="material-symbols-outlined text-2xl">bolt</span>
+                </div>
+                <div>
+                    <div class="flex items-center space-x-2">
+                        <h1 class="text-lg font-headline font-bold text-on-surface tracking-tight">SmartHome Pro</h1>
+                        <span id="header-status-dot" class="w-2 h-2 rounded-full bg-primary-container animate-pulse shadow-[0_0_8px_#00ff66]"></span>
+                    </div>
+                    <span class="text-xs text-on-surface-variant font-mono" id="header-ip-badge">127.0.0.1:5000</span>
+                </div>
+            </div>
+
+            <!-- Right Controls: Connection & APK Pills -->
+            <div class="flex items-center space-x-2">
+                <a href="/static/SmartHome_Pro.apk" download="SmartHome_Pro.apk" class="hidden sm:flex items-center space-x-1 px-3 py-1.5 rounded-full bg-surface-container border border-white/10 text-xs font-medium text-primary-fixed-dim hover:border-primary-container/40 transition-all" title="Download Android App APK">
+                    <span class="material-symbols-outlined text-sm">download</span>
+                    <span>APK</span>
+                </a>
+
+                <button onclick="openConnectModal()" class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-primary-container hover:bg-surface-variant transition-all border border-white/5 active:scale-95" title="Gateway Connection Settings">
+                    <span class="material-symbols-outlined text-xl">router</span>
+                </button>
+
+                <button onclick="toggleAudioMute()" id="btn-audio-mute" class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-primary-container hover:bg-surface-variant transition-all border border-white/5 active:scale-95" title="Toggle Siren & Alert Audio">
+                    <span class="material-symbols-outlined text-xl" id="icon-audio-mute">volume_up</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Emergency Hazard Alert Banner (Gas Leak or Fire Detected) -->
+    <div id="emergency-banner" class="hidden max-w-xl mx-auto px-4 pt-3">
+        <div class="bg-error-container/85 border border-error/50 backdrop-blur-2xl p-4 rounded-xl shadow-lg flex items-center justify-between animate-pulse">
+            <div class="flex items-center space-x-3">
+                <span class="material-symbols-outlined text-error text-3xl">warning</span>
+                <div>
+                    <h3 class="text-sm font-bold text-white uppercase tracking-wider">Hazard Emergency Alert</h3>
+                    <p id="emergency-desc" class="text-xs text-on-error-container">Critical gas or fire threshold exceeded! Siren & Fan active.</p>
+                </div>
+            </div>
+            <button onclick="silenceAlarm()" class="px-3 py-1.5 rounded-lg bg-error text-on-error text-xs font-bold uppercase tracking-wider hover:brightness-110 active:scale-95 transition-all">
+                Mute Siren
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Container For All Screens -->
+    <main class="max-w-xl mx-auto px-4 py-4 space-y-6">
+
+        <!-- =================================================================== -->
+        <!-- SCREEN 1: HOME DASHBOARD -->
+        <!-- =================================================================== -->
+        <div id="screen-home" class="screen-view space-y-5">
+            <!-- Greeting & System State -->
+            <section class="flex justify-between items-end pt-1">
+                <div>
+                    <h2 class="text-2xl font-headline font-bold text-on-surface" id="greeting-text">Good evening</h2>
+                    <div class="flex items-center space-x-2 mt-1">
+                        <span id="system-pulse-dot" class="w-2.5 h-2.5 rounded-full bg-primary-container animate-pulse shadow-[0_0_8px_#00ff66]"></span>
+                        <span id="system-status-text" class="text-sm font-medium text-primary-fixed-dim">Arduino Connected</span>
+                    </div>
+                </div>
+                <div class="px-3 py-1 rounded-full bg-surface-container border border-white/10 text-xs text-on-surface-variant flex items-center space-x-1.5">
+                    <span id="mqtt-status-dot" class="w-2 h-2 rounded-full bg-primary-container"></span>
+                    <span id="mqtt-status-text">MQTT Active</span>
+                </div>
+            </section>
+
+            <!-- Home Status Overview Card -->
+            <section class="glass-card p-5 rounded-2xl relative overflow-hidden">
+                <div class="absolute -right-8 -bottom-8 w-32 h-32 bg-primary-container/15 rounded-full blur-2xl pointer-events-none"></div>
+                
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <span class="text-xs uppercase tracking-wider text-on-surface-variant font-mono">Hardware Overview</span>
+                        <h3 class="text-xl font-headline font-semibold text-on-surface mt-0.5" id="home-status-title">Home Status</h3>
+                    </div>
+                    <span id="badge-system-health" class="px-3 py-1 rounded-full bg-primary-container/20 text-primary-container text-xs font-bold border border-primary-container/30 shadow-[0_0_10px_rgba(0,255,102,0.2)]">
+                        Optimal
+                    </span>
+                </div>
+
+                <div class="grid grid-cols-3 gap-3 pt-3 border-t border-white/5">
+                    <div class="flex flex-col">
+                        <span class="text-xs text-on-surface-variant">Active Lights</span>
+                        <p class="text-lg font-headline font-bold text-on-surface mt-0.5" id="stat-active-lights">0/4</p>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="text-xs text-on-surface-variant">Gate Servo (D10)</span>
+                        <p class="text-lg font-headline font-bold text-on-surface mt-0.5" id="stat-door-angle">Closed (0°)</p>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="text-xs text-on-surface-variant">System Mode</span>
+                        <p class="text-lg font-headline font-bold text-primary-fixed-dim mt-0.5" id="stat-sys-mode">AUTO</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quick Controls Section (4 Independent Lights & Big Gate Access) -->
+            <section class="space-y-3">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-lg font-headline font-bold text-on-surface">Hardware Actuator Controls</h3>
+                    <button onclick="showScreen('lights')" class="text-xs text-primary-fixed-dim hover:underline flex items-center">
+                        All Controls <span class="material-symbols-outlined text-sm ml-0.5">chevron_right</span>
+                    </button>
+                </div>
+
+                <!-- 4 Real Lights Grid -->
+                <div class="grid grid-cols-2 gap-3">
+                    <!-- Light 1: Living Room (Pin D4) -->
+                    <div class="glass-card p-3.5 rounded-xl flex items-center justify-between">
+                        <div class="flex items-center space-x-2.5">
+                            <div id="icon-light-1" class="w-9 h-9 rounded-lg bg-surface-variant text-on-surface-variant flex items-center justify-center transition-all">
+                                <span class="material-symbols-outlined text-xl">lightbulb</span>
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-bold text-on-surface">Living Room</h4>
+                                <p class="text-[10px] text-on-surface-variant font-mono" id="label-light-1">Pin D4 • OFF</p>
+                            </div>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" id="toggle-light-1" class="sr-only peer" onchange="handleLightToggle(1, this.checked)">
+                            <div class="w-10 h-6 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container shadow-inner"></div>
+                        </label>
+                    </div>
+
+                    <!-- Light 2: Bedroom (Pin A2) -->
+                    <div class="glass-card p-3.5 rounded-xl flex items-center justify-between">
+                        <div class="flex items-center space-x-2.5">
+                            <div id="icon-light-2" class="w-9 h-9 rounded-lg bg-surface-variant text-on-surface-variant flex items-center justify-center transition-all">
+                                <span class="material-symbols-outlined text-xl">bed</span>
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-bold text-on-surface">Bedroom</h4>
+                                <p class="text-[10px] text-on-surface-variant font-mono" id="label-light-2">Pin A2 • OFF</p>
+                            </div>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" id="toggle-light-2" class="sr-only peer" onchange="handleLightToggle(2, this.checked)">
+                            <div class="w-10 h-6 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container shadow-inner"></div>
+                        </label>
+                    </div>
+
+                    <!-- Light 3: Kitchen (Pin A3) -->
+                    <div class="glass-card p-3.5 rounded-xl flex items-center justify-between">
+                        <div class="flex items-center space-x-2.5">
+                            <div id="icon-light-3" class="w-9 h-9 rounded-lg bg-surface-variant text-on-surface-variant flex items-center justify-center transition-all">
+                                <span class="material-symbols-outlined text-xl">countertops</span>
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-bold text-on-surface">Kitchen</h4>
+                                <p class="text-[10px] text-on-surface-variant font-mono" id="label-light-3">Pin A3 • OFF</p>
+                            </div>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" id="toggle-light-3" class="sr-only peer" onchange="handleLightToggle(3, this.checked)">
+                            <div class="w-10 h-6 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container shadow-inner"></div>
+                        </label>
+                    </div>
+
+                    <!-- Light 4: Balcony / Outdoor (Pin A4) -->
+                    <div class="glass-card p-3.5 rounded-xl flex items-center justify-between">
+                        <div class="flex items-center space-x-2.5">
+                            <div id="icon-light-4" class="w-9 h-9 rounded-lg bg-surface-variant text-on-surface-variant flex items-center justify-center transition-all">
+                                <span class="material-symbols-outlined text-xl">balcony</span>
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-bold text-on-surface">Balcony</h4>
+                                <p class="text-[10px] text-on-surface-variant font-mono" id="label-light-4">Pin A4 • OFF</p>
+                            </div>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" id="toggle-light-4" class="sr-only peer" onchange="handleLightToggle(4, this.checked)">
+                            <div class="w-10 h-6 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container shadow-inner"></div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Garage Gate / Door Servo Card with BIG EASY-ACCESS BUTTONS -->
+                <div class="glass-card p-4 rounded-xl space-y-3">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <div id="icon-door-box" class="w-11 h-11 rounded-xl bg-surface-variant text-primary-container flex items-center justify-center transition-all shadow-md">
+                                <span class="material-symbols-outlined text-2xl">garage_home</span>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold text-on-surface">Gate & Door Servo</h4>
+                                <p class="text-xs text-on-surface-variant font-mono" id="label-door-status">Pin D10 Servo • 0° (Closed)</p>
+                            </div>
+                        </div>
+                        <span id="badge-gate-status" class="px-2.5 py-1 rounded-full bg-surface-variant text-xs font-mono text-on-surface">CLOSED</span>
+                    </div>
+
+                    <!-- BIG OPEN & CLOSE BUTTONS -->
+                    <div class="grid grid-cols-2 gap-3 pt-1">
+                        <button onclick="closeDoor()" id="btn-gate-close-home" class="py-3.5 px-4 rounded-xl bg-surface-container-highest text-primary-container font-black text-sm flex items-center justify-center gap-2 border border-primary-container/40 shadow-[0_0_12px_rgba(0,255,102,0.2)] active:scale-95 transition-all">
+                            <span class="material-symbols-outlined text-xl text-error">lock</span>
+                            <span>CLOSE (0°)</span>
+                        </button>
+                        <button onclick="openDoor()" id="btn-gate-open-home" class="py-3.5 px-4 rounded-xl bg-surface-variant/80 hover:bg-surface-variant active:scale-95 text-on-surface font-bold text-sm flex items-center justify-center gap-2 border border-white/10 transition-all">
+                            <span class="material-symbols-outlined text-xl text-primary-container">lock_open</span>
+                            <span>OPEN (90°)</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Real-Time Environmental Sensors Live Preview Grid -->
+            <section class="space-y-3">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-lg font-headline font-bold text-on-surface">Live Sensor Telemetry</h3>
+                    <button onclick="showScreen('sensors')" class="text-xs text-primary-fixed-dim hover:underline flex items-center">
+                        Sensors Hub <span class="material-symbols-outlined text-sm ml-0.5">chevron_right</span>
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <!-- MQ-6 Gas Sensor -->
+                    <div class="glass-card p-4 rounded-xl flex flex-col justify-between space-y-2">
+                        <div class="flex justify-between items-start">
+                            <span class="text-xs text-on-surface-variant">MQ-6 Gas (A1)</span>
+                            <span class="material-symbols-outlined text-primary-fixed-dim text-lg">air</span>
+                        </div>
+                        <div>
+                            <span class="text-xl font-headline font-bold text-on-surface" id="quick-gas-status">Safe</span>
+                            <p class="text-xs font-mono text-primary-fixed-dim mt-0.5" id="quick-gas-val">-- ADC</p>
+                        </div>
+                    </div>
+
+                    <!-- Flame Sensor -->
+                    <div class="glass-card p-4 rounded-xl flex flex-col justify-between space-y-2">
+                        <div class="flex justify-between items-start">
+                            <span class="text-xs text-on-surface-variant">Flame Sensor (D5)</span>
+                            <span class="material-symbols-outlined text-primary-fixed-dim text-lg">local_fire_department</span>
+                        </div>
+                        <div>
+                            <span class="text-xl font-headline font-bold text-on-surface" id="quick-flame-status">Clear</span>
+                            <p class="text-xs text-on-surface-variant mt-0.5" id="quick-flame-desc">Safe</p>
+                        </div>
+                    </div>
+
+                    <!-- LDR Light Sensor -->
+                    <div class="glass-card p-4 rounded-xl flex flex-col justify-between space-y-2">
+                        <div class="flex justify-between items-start">
+                            <span class="text-xs text-on-surface-variant">LDR Light (A0)</span>
+                            <span class="material-symbols-outlined text-tertiary text-lg">wb_sunny</span>
+                        </div>
+                        <div>
+                            <span class="text-xl font-headline font-bold text-on-surface" id="quick-ldr-val">--</span>
+                            <p class="text-xs text-tertiary mt-0.5" id="quick-ldr-status">--</p>
+                        </div>
+                    </div>
+
+                    <!-- IR & PIR Motion Sensor -->
+                    <div class="glass-card p-4 rounded-xl flex flex-col justify-between space-y-2">
+                        <div class="flex justify-between items-start">
+                            <span class="text-xs text-on-surface-variant">Motion / PIR (D2)</span>
+                            <span class="material-symbols-outlined text-primary-fixed-dim text-lg">sensors</span>
+                        </div>
+                        <div>
+                            <span class="text-xl font-headline font-bold text-on-surface" id="quick-motion-status">Clear</span>
+                            <p class="text-xs text-on-surface-variant mt-0.5" id="quick-motion-desc">No movement</p>
+                        </div>
+                    </div>
+
+                    <!-- Combined DHT Climate (Span 2) -->
+                    <div class="col-span-2 glass-card p-4 rounded-xl flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 rounded-full bg-surface-variant flex items-center justify-center text-primary-fixed-dim">
+                                <span class="material-symbols-outlined">humidity_percentage</span>
+                            </div>
+                            <div>
+                                <span class="text-xs text-on-surface-variant">DHT Temperature & Humidity (Pin D3)</span>
+                                <h4 class="text-base font-headline font-bold text-on-surface" id="quick-climate-val">--°C • --%</h4>
+                            </div>
+                        </div>
+                        <span id="quick-climate-badge" class="px-2.5 py-1 rounded-full bg-primary-container/20 text-primary-fixed-dim text-xs font-medium border border-primary-container/20">
+                            Live
+                        </span>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- =================================================================== -->
+        <!-- SCREEN 2: LIGHTING & ACTUATORS CONTROL (NO SLIDER) -->
+        <!-- =================================================================== -->
+        <div id="screen-lights" class="screen-view hidden space-y-5">
+            <!-- Screen Title -->
+            <div class="flex items-center justify-between">
+                <div>
+                    <h2 class="text-2xl font-headline font-bold text-on-surface">Lighting & Actuators</h2>
+                    <p class="text-xs text-on-surface-variant">Hardware control for Arduino relays and servo</p>
+                </div>
+                <div class="px-3 py-1 rounded-full bg-primary-container/20 border border-primary-container/30 text-primary-container text-xs font-bold flex items-center gap-1.5 shadow-[0_0_12px_rgba(0,255,102,0.15)]">
+                    <span class="w-2 h-2 rounded-full bg-primary-container animate-pulse shadow-[0_0_8px_#00ff66]"></span>
+                    <span id="badge-lights-count">Lights: 0/4 Active</span>
+                </div>
+            </div>
+
+            <!-- Master Control Card (Master Toggle for All 4 Lights) -->
+            <div class="glass-card rounded-2xl p-5 relative overflow-hidden">
+                <div class="absolute -right-10 -top-10 w-32 h-32 bg-primary-container/10 rounded-full blur-2xl pointer-events-none"></div>
+                
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 rounded-full bg-primary-container text-surface-container-lowest flex items-center justify-center shadow-lg shadow-primary-container/20">
+                            <span class="material-symbols-outlined text-2xl font-bold">lightbulb</span>
+                        </div>
+                        <div>
+                            <h3 class="text-base font-headline font-bold text-on-surface">Master Lights Control</h3>
+                            <p class="text-xs text-on-surface-variant" id="master-lights-desc">Toggle all 4 relay channels simultaneously</p>
+                        </div>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" id="toggle-master-light" class="sr-only peer" onchange="handleMasterLightToggle(this.checked)">
+                        <div class="w-14 h-8 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-primary-container shadow-inner"></div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Quick Scenes -->
+            <div class="space-y-2">
+                <h3 class="text-xs uppercase tracking-wider text-on-surface-variant font-mono px-1">Hardware Scenes</h3>
+                <div class="grid grid-cols-4 gap-2">
+                    <button onclick="applyScene('away')" class="flex flex-col items-center justify-center p-3 rounded-xl glass-card hover:bg-surface-variant/50 transition-all text-on-surface active:scale-95">
+                        <span class="material-symbols-outlined mb-1 text-primary-fixed-dim">power_settings_new</span>
+                        <span class="text-xs font-medium">All Off</span>
+                    </button>
+                    <button onclick="applyScene('home')" class="flex flex-col items-center justify-center p-3 rounded-xl bg-primary-container text-surface-container-lowest font-bold shadow-md shadow-primary-container/25 transition-all active:scale-95">
+                        <span class="material-symbols-outlined mb-1">wb_sunny</span>
+                        <span class="text-xs font-bold">Auto</span>
+                    </button>
+                    <button onclick="applyScene('night')" class="flex flex-col items-center justify-center p-3 rounded-xl glass-card hover:bg-surface-variant/50 transition-all text-on-surface active:scale-95">
+                        <span class="material-symbols-outlined mb-1 text-tertiary">bedtime</span>
+                        <span class="text-xs font-medium">Night</span>
+                    </button>
+                    <button onclick="applyScene('party')" class="flex flex-col items-center justify-center p-3 rounded-xl glass-card hover:bg-surface-variant/50 transition-all text-on-surface active:scale-95">
+                        <span class="material-symbols-outlined mb-1 text-secondary-fixed">celebration</span>
+                        <span class="text-xs font-medium">Party</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 4 Independent Hardware Lighting Relays -->
+            <div class="space-y-3">
+                <h3 class="text-xs uppercase tracking-wider text-on-surface-variant font-mono px-1">Independent Light Relays</h3>
+
+                <!-- Light 1: Living Room Light (Pin D4) -->
+                <div class="glass-card rounded-xl p-4 shadow-md flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div id="icon-room-light-1" class="w-10 h-10 rounded-xl bg-surface-variant flex items-center justify-center text-on-surface-variant transition-all">
+                            <span class="material-symbols-outlined">lightbulb</span>
+                        </div>
+                        <div>
+                            <h4 class="text-sm font-bold text-on-surface">Living Room (Pin D4)</h4>
+                            <p class="text-xs text-primary-fixed-dim font-mono" id="card-light-1-label">Relay Output • Standby</p>
+                        </div>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" id="toggle-room-light-1" class="sr-only peer" onchange="handleLightToggle(1, this.checked)">
+                        <div class="w-12 h-7 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-primary-container shadow-inner"></div>
+                    </label>
+                </div>
+
+                <!-- Light 2: Bedroom Light (Pin A2) -->
+                <div class="glass-card rounded-xl p-4 shadow-md flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div id="icon-room-light-2" class="w-10 h-10 rounded-xl bg-surface-variant flex items-center justify-center text-on-surface-variant transition-all">
+                            <span class="material-symbols-outlined">bed</span>
+                        </div>
+                        <div>
+                            <h4 class="text-sm font-bold text-on-surface">Bedroom (Pin A2)</h4>
+                            <p class="text-xs text-primary-fixed-dim font-mono" id="card-light-2-label">Relay Output • Standby</p>
+                        </div>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" id="toggle-room-light-2" class="sr-only peer" onchange="handleLightToggle(2, this.checked)">
+                        <div class="w-12 h-7 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-primary-container shadow-inner"></div>
+                    </label>
+                </div>
+
+                <!-- Light 3: Kitchen Light (Pin A3) -->
+                <div class="glass-card rounded-xl p-4 shadow-md flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div id="icon-room-light-3" class="w-10 h-10 rounded-xl bg-surface-variant flex items-center justify-center text-on-surface-variant transition-all">
+                            <span class="material-symbols-outlined">countertops</span>
+                        </div>
+                        <div>
+                            <h4 class="text-sm font-bold text-on-surface">Kitchen (Pin A3)</h4>
+                            <p class="text-xs text-primary-fixed-dim font-mono" id="card-light-3-label">Relay Output • Standby</p>
+                        </div>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" id="toggle-room-light-3" class="sr-only peer" onchange="handleLightToggle(3, this.checked)">
+                        <div class="w-12 h-7 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-primary-container shadow-inner"></div>
+                    </label>
+                </div>
+
+                <!-- Light 4: Balcony Light (Pin A4) -->
+                <div class="glass-card rounded-xl p-4 shadow-md flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div id="icon-room-light-4" class="w-10 h-10 rounded-xl bg-surface-variant flex items-center justify-center text-on-surface-variant transition-all">
+                            <span class="material-symbols-outlined">balcony</span>
+                        </div>
+                        <div>
+                            <h4 class="text-sm font-bold text-on-surface">Balcony / Outdoor (Pin A4)</h4>
+                            <p class="text-xs text-primary-fixed-dim font-mono" id="card-light-4-label">Relay Output • Standby</p>
+                        </div>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" id="toggle-room-light-4" class="sr-only peer" onchange="handleLightToggle(4, this.checked)">
+                        <div class="w-12 h-7 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-primary-container shadow-inner"></div>
+                    </label>
+                </div>
+
+                <!-- Ventilation Fan Relay (Pin D12) -->
+                <div class="glass-card rounded-xl p-4 shadow-md flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-surface-variant flex items-center justify-center text-primary-container">
+                            <span class="material-symbols-outlined">mode_fan</span>
+                        </div>
+                        <div>
+                            <h4 class="text-sm font-bold text-on-surface">Ventilation Fan (Pin D12)</h4>
+                            <p class="text-xs text-on-surface-variant font-mono" id="card-fan-label">Exhaust Relay • Standby</p>
+                        </div>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" id="toggle-fan" class="sr-only peer" onchange="toggleFan()">
+                        <div class="w-12 h-7 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-primary-container shadow-inner"></div>
+                    </label>
+                </div>
+
+                <!-- Garage Gate / Door Servo Motor (Pin D10) with BIG BUTTONS -->
+                <div class="glass-card rounded-xl p-4 shadow-md space-y-3">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-surface-variant flex items-center justify-center text-primary-container">
+                                <span class="material-symbols-outlined">garage_home</span>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold text-on-surface">Door Lock / Gate Servo (Pin D10)</h4>
+                                <p class="text-xs text-on-surface-variant font-mono" id="card-servo-label">PWM Deadbolt • 0° (Closed)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- BIG OPEN / CLOSE BUTTONS IN ROOMS SECTION -->
+                    <div class="grid grid-cols-2 gap-3 pt-1">
+                        <button onclick="closeDoor()" id="btn-gate-close-room" class="py-3 px-4 rounded-xl bg-surface-container-highest text-primary-container font-black text-sm flex items-center justify-center gap-2 border border-primary-container/40 shadow-[0_0_12px_rgba(0,255,102,0.2)] active:scale-95 transition-all">
+                            <span class="material-symbols-outlined text-lg text-error">lock</span>
+                            <span>CLOSE (0°)</span>
+                        </button>
+                        <button onclick="openDoor()" id="btn-gate-open-room" class="py-3 px-4 rounded-xl bg-surface-variant/80 hover:bg-surface-variant active:scale-95 text-on-surface font-bold text-sm flex items-center justify-center gap-2 border border-white/10 transition-all">
+                            <span class="material-symbols-outlined text-lg text-primary-container">lock_open</span>
+                            <span>OPEN (90°)</span>
+                        </button>
+                    </div>
+
+                    <!-- Precision Servo Angle Slider -->
+                    <div class="space-y-1.5 pt-2 border-t border-white/5">
+                        <div class="flex justify-between text-xs text-on-surface-variant font-mono">
+                            <span>Precision Angle Position</span>
+                            <span id="val-door-angle-actuator" class="text-primary-fixed-dim font-bold">0°</span>
+                        </div>
+                        <input type="range" min="0" max="180" value="0" id="slider-door-actuator" class="w-full accent-primary-container cursor-pointer" oninput="handleDoorSlider(this.value)">
+                    </div>
+                </div>
+
+                <!-- Active Buzzer & Warning LED (Pin D6 & D11) -->
+                <div class="glass-card rounded-xl p-4 shadow-md flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-surface-variant flex items-center justify-center text-error">
+                            <span class="material-symbols-outlined">campaign</span>
+                        </div>
+                        <div>
+                            <h4 class="text-sm font-bold text-on-surface">Hazard Siren & Red LED (D6/D11)</h4>
+                            <p class="text-xs text-on-surface-variant font-mono" id="card-alarm-label">Emergency Active Buzzer</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="postAPI('/api/alarm/test')" class="px-3 py-1 rounded-lg bg-surface-variant text-xs font-bold text-on-surface border border-white/10 transition-all">Test</button>
+                        <button onclick="silenceAlarm()" class="px-3 py-1 rounded-lg bg-error-container text-error text-xs font-bold border border-error/40 transition-all">Mute</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- =================================================================== -->
+        <!-- SCREEN 3: SENSORS HUB & ATMOSPHERIC TELEMETRY -->
+        <!-- =================================================================== -->
+        <div id="screen-sensors" class="screen-view hidden space-y-6">
+            <!-- Screen Header -->
+            <div class="flex flex-col space-y-1">
+                <h2 class="text-2xl font-headline font-bold text-on-surface">Sensors Hub</h2>
+                <p class="text-xs text-on-surface-variant">Accurate real-time readings from Arduino Uno hardware</p>
+            </div>
+
+            <!-- Safety Section -->
+            <section class="space-y-3">
+                <h3 class="text-sm font-headline font-bold text-primary-fixed-dim px-1 flex items-center space-x-2">
+                    <span class="material-symbols-outlined text-base">security</span>
+                    <span>Safety Telemetry</span>
+                </h3>
+
+                <!-- Gas Sensor Card (MQ-6) -->
+                <div class="glass-card rounded-2xl p-5 space-y-3 relative overflow-hidden">
+                    <div class="absolute -right-10 -top-10 w-32 h-32 bg-primary-container/10 rounded-full blur-2xl pointer-events-none"></div>
+                    <div class="flex justify-between items-start">
+                        <div class="flex items-center space-x-3">
+                            <div class="p-3 rounded-xl bg-primary-container/20 text-primary-fixed-dim border border-primary-container/30">
+                                <span class="material-symbols-outlined text-2xl">air</span>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold text-on-surface">MQ-6 Gas Sensor (Pin A1)</h4>
+                                <p class="text-xs text-on-surface-variant">LPG & combustible gas analog sensor</p>
+                            </div>
+                        </div>
+                        <span id="badge-sensor-gas" class="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-bold border border-emerald-500/30 flex items-center space-x-1">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                            <span>Normal</span>
+                        </span>
+                    </div>
+
+                    <div class="flex justify-between items-end pt-2">
+                        <div>
+                            <span class="text-xs text-on-surface-variant uppercase tracking-wider font-mono">Current Reading</span>
+                            <div class="text-2xl font-headline font-bold text-on-surface" id="hub-gas-reading">
+                                -- <span class="text-xs font-sans text-primary-fixed-dim">ADC</span>
+                            </div>
+                        </div>
+                        <!-- Dynamic Mini Trend Sparkline -->
+                        <div id="spark-gas" class="flex items-end space-x-1 h-8">
+                            <div class="w-3 bg-primary-container/30 rounded-t h-2"></div>
+                            <div class="w-3 bg-primary-container/40 rounded-t h-2"></div>
+                            <div class="w-3 bg-primary-container/50 rounded-t h-2"></div>
+                            <div class="w-3 bg-primary-container/70 rounded-t h-2"></div>
+                            <div class="w-3 bg-primary-container rounded-t h-2"></div>
+                            <div class="w-3 bg-primary-container/80 rounded-t h-2"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Flame Sensor Card -->
+                <div class="glass-card rounded-2xl p-5 space-y-3 relative overflow-hidden">
+                    <div class="absolute -right-10 -top-10 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl pointer-events-none"></div>
+                    <div class="flex justify-between items-start">
+                        <div class="flex items-center space-x-3">
+                            <div class="p-3 rounded-xl bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                                <span class="material-symbols-outlined text-2xl">local_fire_department</span>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold text-on-surface">Flame Sensor (Pin D5)</h4>
+                                <p class="text-xs text-on-surface-variant">Fire & spark IR radiation detector</p>
+                            </div>
+                        </div>
+                        <span id="badge-sensor-flame" class="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-bold border border-emerald-500/30 flex items-center space-x-1">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                            <span>Safe</span>
+                        </span>
+                    </div>
+
+                    <div class="flex justify-between items-end pt-2">
+                        <div>
+                            <span class="text-xs text-on-surface-variant uppercase tracking-wider font-mono">Status</span>
+                            <div class="text-2xl font-headline font-bold text-on-surface" id="hub-flame-reading">
+                                No Flame <span class="text-xs font-sans text-emerald-300">Detected</span>
+                            </div>
+                        </div>
+                        <!-- Dynamic Mini Trend Sparkline -->
+                        <div id="spark-flame" class="flex items-end space-x-1 h-8">
+                            <div class="w-3 bg-emerald-500/30 rounded-t h-2"></div>
+                            <div class="w-3 bg-emerald-500/30 rounded-t h-2"></div>
+                            <div class="w-3 bg-emerald-500/30 rounded-t h-2"></div>
+                            <div class="w-3 bg-emerald-500/30 rounded-t h-2"></div>
+                            <div class="w-3 bg-emerald-500/30 rounded-t h-2"></div>
+                            <div class="w-3 bg-emerald-500/30 rounded-t h-2"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Environment Section -->
+            <section class="space-y-3">
+                <h3 class="text-sm font-headline font-bold text-primary-fixed-dim px-1 flex items-center space-x-2">
+                    <span class="material-symbols-outlined text-base">nest_thermostat</span>
+                    <span>Indoor Climate & Environment</span>
+                </h3>
+
+                <!-- Temperature & Humidity Cards Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <!-- Temperature Card -->
+                    <div class="glass-card rounded-2xl p-5 space-y-3">
+                        <div class="flex justify-between items-start">
+                            <div class="flex items-center space-x-2">
+                                <span class="material-symbols-outlined text-primary-fixed-dim">thermostat</span>
+                                <span class="text-xs font-bold text-on-surface">DHT Temp (Pin D3)</span>
+                            </div>
+                            <span class="px-2 py-0.5 rounded-full bg-primary-container/20 text-primary-fixed-dim text-xs">Celsius</span>
+                        </div>
+                        <div class="flex justify-between items-end">
+                            <div>
+                                <span class="text-xs text-on-surface-variant font-mono">Ambient</span>
+                                <div class="text-2xl font-headline font-bold text-on-surface" id="hub-temp-reading">--°C</div>
+                            </div>
+                            <div id="spark-temp" class="flex items-end space-x-1 h-7">
+                                <div class="w-2.5 bg-primary-container/40 rounded-t h-2"></div>
+                                <div class="w-2.5 bg-primary-container/50 rounded-t h-2"></div>
+                                <div class="w-2.5 bg-primary-container/70 rounded-t h-2"></div>
+                                <div class="w-2.5 bg-primary-container rounded-t h-2"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Humidity Card -->
+                    <div class="glass-card rounded-2xl p-5 space-y-3">
+                        <div class="flex justify-between items-start">
+                            <div class="flex items-center space-x-2">
+                                <span class="material-symbols-outlined text-primary-fixed-dim">humidity_percentage</span>
+                                <span class="text-xs font-bold text-on-surface">DHT Humidity (Pin D3)</span>
+                            </div>
+                            <span class="px-2 py-0.5 rounded-full bg-primary-container/20 text-primary-fixed-dim text-xs">% RH</span>
+                        </div>
+                        <div class="flex justify-between items-end">
+                            <div>
+                                <span class="text-xs text-on-surface-variant font-mono">Relative</span>
+                                <div class="text-2xl font-headline font-bold text-on-surface" id="hub-hum-reading">--%</div>
+                            </div>
+                            <div id="spark-hum" class="flex items-end space-x-1 h-7">
+                                <div class="w-2.5 bg-primary-container/40 rounded-t h-2"></div>
+                                <div class="w-2.5 bg-primary-container/50 rounded-t h-2"></div>
+                                <div class="w-2.5 bg-primary-container/70 rounded-t h-2"></div>
+                                <div class="w-2.5 bg-primary-container rounded-t h-2"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LDR Ambient Light Card -->
+                <div class="glass-card rounded-2xl p-5 space-y-3 relative overflow-hidden">
+                    <div class="flex justify-between items-start">
+                        <div class="flex items-center space-x-3">
+                            <div class="p-3 rounded-xl bg-primary-container/20 text-primary-fixed-dim border border-primary-container/30">
+                                <span class="material-symbols-outlined text-2xl">light_mode</span>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold text-on-surface">LDR Light Sensor (Pin A0)</h4>
+                                <p class="text-xs text-on-surface-variant">Ambient daylight & photoresistor intensity</p>
+                            </div>
+                        </div>
+                        <span id="badge-sensor-ldr" class="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-bold border border-emerald-500/30">
+                            Reading
+                        </span>
+                    </div>
+
+                    <div class="flex justify-between items-end pt-2">
+                        <div>
+                            <span class="text-xs text-on-surface-variant uppercase tracking-wider font-mono">Illuminance</span>
+                            <div class="text-2xl font-headline font-bold text-on-surface" id="hub-ldr-reading">
+                                -- <span class="text-xs font-sans text-primary-fixed-dim">ADC</span>
+                            </div>
+                        </div>
+                        <div id="spark-ldr" class="flex items-end space-x-1 h-8">
+                            <div class="w-3 bg-primary-container/30 rounded-t h-2"></div>
+                            <div class="w-3 bg-primary-container/40 rounded-t h-2"></div>
+                            <div class="w-3 bg-primary-container/60 rounded-t h-2"></div>
+                            <div class="w-3 bg-primary-container rounded-t h-2"></div>
+                            <div class="w-3 bg-primary-container rounded-t h-2"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Detection & Proximity Section -->
+            <section class="space-y-3">
+                <h3 class="text-sm font-headline font-bold text-primary-fixed-dim px-1 flex items-center space-x-2">
+                    <span class="material-symbols-outlined text-base">radar</span>
+                    <span>Detection & Proximity</span>
+                </h3>
+
+                <!-- PIR Motion & IR Sensors Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <!-- PIR Motion Sensor -->
+                    <div class="glass-card rounded-2xl p-4 space-y-3">
+                        <div class="flex justify-between items-start">
+                            <div class="flex items-center space-x-2">
+                                <span class="material-symbols-outlined text-primary-fixed-dim">directions_walk</span>
+                                <span class="text-xs font-bold text-on-surface">PIR Motion (Pin D2)</span>
+                            </div>
+                            <span id="badge-sensor-pir" class="px-2 py-0.5 rounded-full bg-surface-variant text-on-surface-variant text-xs">Clear</span>
+                        </div>
+                        <div>
+                            <span class="text-xs text-on-surface-variant font-mono">Human Presence</span>
+                            <div class="text-xl font-headline font-bold text-on-surface" id="hub-pir-reading">No Motion</div>
+                        </div>
+                    </div>
+
+                    <!-- IR Obstacle Sensor -->
+                    <div class="glass-card rounded-2xl p-4 space-y-3">
+                        <div class="flex justify-between items-start">
+                            <div class="flex items-center space-x-2">
+                                <span class="material-symbols-outlined text-primary-fixed-dim">sensors</span>
+                                <span class="text-xs font-bold text-on-surface">IR Tripwire (Pin D7)</span>
+                            </div>
+                            <span id="badge-sensor-ir" class="px-2 py-0.5 rounded-full bg-surface-variant text-on-surface-variant text-xs">Clear</span>
+                        </div>
+                        <div>
+                            <span class="text-xs text-on-surface-variant font-mono">Doorway Beam</span>
+                            <div class="text-xl font-headline font-bold text-on-surface" id="hub-ir-reading">Clear</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ultrasonic HC-SR04 Proximity Card -->
+                <div class="glass-card rounded-2xl p-5 space-y-3">
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 rounded-full bg-surface-variant flex items-center justify-center text-primary-container">
+                                <span class="material-symbols-outlined">straighten</span>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold text-on-surface">Ultrasonic HC-SR04 (D8/D9)</h4>
+                                <p class="text-xs text-on-surface-variant">Garage / Doorway Distance Proximity</p>
+                            </div>
+                        </div>
+                        <span class="text-lg font-headline font-bold text-primary-fixed-dim" id="hub-dist-val">-- cm</span>
+                    </div>
+
+                    <!-- Progress bar -->
+                    <div class="space-y-1">
+                        <div class="w-full bg-surface-variant h-2.5 rounded-full overflow-hidden">
+                            <div id="bar-ultrasonic" class="bg-primary-container h-full transition-all duration-300 rounded-full shadow-[0_0_8px_#00ff66]" style="width: 0%;"></div>
+                        </div>
+                        <div class="flex justify-between text-xs text-on-surface-variant font-mono pt-0.5">
+                            <span>0 cm (Near)</span>
+                            <span id="label-dist-status">Proximity</span>
+                            <span>200 cm (Max)</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- =================================================================== -->
+        <!-- SCREEN 4: AUTOMATIONS & SYSTEM SETTINGS -->
+        <!-- =================================================================== -->
+        <div id="screen-settings" class="screen-view hidden space-y-6">
+            <!-- Section Header: Automations -->
+            <div class="flex justify-between items-center">
+                <div>
+                    <h2 class="text-2xl font-headline font-bold text-on-surface">Automation & Rules</h2>
+                    <p class="text-xs text-on-surface-variant">Hardware triggers executed on Arduino Uno</p>
+                </div>
+                <button onclick="toggleSystemMode()" id="btn-mode-toggle" class="bg-primary-container text-on-primary-container px-3.5 py-1.5 rounded-full text-xs font-bold flex items-center gap-1.5 hover:opacity-90 active:scale-95 transition-all shadow-[0_0_15px_rgba(0,255,102,0.3)]">
+                    <span class="material-symbols-outlined text-sm">bolt</span>
+                    <span id="btn-mode-label">Mode: AUTO</span>
+                </button>
+            </div>
+
+            <!-- Automation Rules Bento Cards -->
+            <div class="space-y-3">
+                <!-- Rule Card 1: Gas Safety Trigger -->
+                <div class="glass-card rounded-xl p-4 transition-all hover:border-primary-fixed-dim/40 shadow-md">
+                    <div class="flex items-start justify-between gap-3">
+                        <div class="flex items-start gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-error-container/40 border border-error/30 flex items-center justify-center shrink-0 text-error">
+                                <span class="material-symbols-outlined text-xl">air</span>
+                            </div>
+                            <div>
+                                <div class="text-xs text-error tracking-wider uppercase font-semibold font-mono">Emergency Safety Rule</div>
+                                <h4 class="text-sm font-headline font-bold text-on-surface mt-0.5">High Gas Alert Trigger</h4>
+                                <div class="flex items-center gap-1.5 text-xs text-on-surface-variant mt-1">
+                                    <span class="material-symbols-outlined text-xs text-primary-fixed-dim">arrow_forward</span>
+                                    <span>If MQ-6 &gt; 400 ADC: Fan ON & Siren Active</span>
+                                </div>
+                            </div>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" checked class="sr-only peer" onchange="showNotification('Gas safety automation active', 'info', 'air')">
+                            <div class="w-11 h-6 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container shadow-inner"></div>
+                        </label>
+                    </div>
+                    <div class="mt-3 pt-2.5 border-t border-white/5 flex items-center justify-between text-xs text-on-surface-variant font-mono">
+                        <span>Trigger: MQ-6 Analog (A1)</span>
+                        <span class="text-primary-fixed-dim font-bold">Enabled</span>
+                    </div>
+                </div>
+
+                <!-- Rule Card 2: Flame Fire Emergency -->
+                <div class="glass-card rounded-xl p-4 transition-all hover:border-primary-fixed-dim/40 shadow-md">
+                    <div class="flex items-start justify-between gap-3">
+                        <div class="flex items-start gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-error-container/40 border border-error/30 flex items-center justify-center shrink-0 text-error">
+                                <span class="material-symbols-outlined text-xl">local_fire_department</span>
+                            </div>
+                            <div>
+                                <div class="text-xs text-error tracking-wider uppercase font-semibold font-mono">Emergency Fire Rule</div>
+                                <h4 class="text-sm font-headline font-bold text-on-surface mt-0.5">Fire Detection Trigger</h4>
+                                <div class="flex items-center gap-1.5 text-xs text-on-surface-variant mt-1">
+                                    <span class="material-symbols-outlined text-xs text-primary-fixed-dim">arrow_forward</span>
+                                    <span>If Flame sensed: Strobe D11 LED & Alarm Siren</span>
+                                </div>
+                            </div>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" checked class="sr-only peer" onchange="showNotification('Fire safety automation active', 'info', 'local_fire_department')">
+                            <div class="w-11 h-6 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container shadow-inner"></div>
+                        </label>
+                    </div>
+                    <div class="mt-3 pt-2.5 border-t border-white/5 flex items-center justify-between text-xs text-on-surface-variant font-mono">
+                        <span>Trigger: Flame Digital (D5)</span>
+                        <span class="text-primary-fixed-dim font-bold">Enabled</span>
+                    </div>
+                </div>
+
+                <!-- Rule Card 3: Intelligent Ambient Lighting -->
+                <div class="glass-card rounded-xl p-4 transition-all hover:border-primary-fixed-dim/40 shadow-md">
+                    <div class="flex items-start justify-between gap-3">
+                        <div class="flex items-start gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-secondary-container/40 border border-secondary/30 flex items-center justify-center shrink-0 text-secondary-fixed">
+                                <span class="material-symbols-outlined text-xl">light_mode</span>
+                            </div>
+                            <div>
+                                <div class="text-xs text-secondary-fixed tracking-wider uppercase font-semibold font-mono">Smart Ambient Rule</div>
+                                <h4 class="text-sm font-headline font-bold text-on-surface mt-0.5">LDR + Motion Night Lighting</h4>
+                                <div class="flex items-center gap-1.5 text-xs text-on-surface-variant mt-1">
+                                    <span class="material-symbols-outlined text-xs text-primary-fixed-dim">arrow_forward</span>
+                                    <span>If LDR Dark & Motion sensed: Light ON for 20s</span>
+                                </div>
+                            </div>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" checked class="sr-only peer" onchange="showNotification('Smart lighting automation active', 'info', 'light_mode')">
+                            <div class="w-11 h-6 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container shadow-inner"></div>
+                        </label>
+                    </div>
+                    <div class="mt-3 pt-2.5 border-t border-white/5 flex items-center justify-between text-xs text-on-surface-variant font-mono">
+                        <span>Trigger: LDR (A0) + PIR (D2)</span>
+                        <span class="text-primary-fixed-dim font-bold">Enabled</span>
+                    </div>
+                </div>
+
+                <!-- Rule Card 4: Garage Proximity Deadbolt -->
+                <div class="glass-card rounded-xl p-4 transition-all hover:border-primary-fixed-dim/40 shadow-md">
+                    <div class="flex items-start justify-between gap-3">
+                        <div class="flex items-start gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-tertiary-container/30 border border-tertiary/30 flex items-center justify-center shrink-0 text-tertiary">
+                                <span class="material-symbols-outlined text-xl">garage_home</span>
+                            </div>
+                            <div>
+                                <div class="text-xs text-tertiary tracking-wider uppercase font-semibold font-mono">Proximity Gate Rule</div>
+                                <h4 class="text-sm font-headline font-bold text-on-surface mt-0.5">Garage Proximity Auto-Gate</h4>
+                                <div class="flex items-center gap-1.5 text-xs text-on-surface-variant mt-1">
+                                    <span class="material-symbols-outlined text-xs text-primary-fixed-dim">arrow_forward</span>
+                                    <span>If Distance &lt; 20cm: Auto Unlock / Open Servo</span>
+                                </div>
+                            </div>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" checked class="sr-only peer" onchange="showNotification('Garage proximity rule active', 'info', 'straighten')">
+                            <div class="w-11 h-6 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container shadow-inner"></div>
+                        </label>
+                    </div>
+                    <div class="mt-3 pt-2.5 border-t border-white/5 flex items-center justify-between text-xs text-on-surface-variant font-mono">
+                        <span>Trigger: HC-SR04 &lt; 20 cm</span>
+                        <span class="text-primary-fixed-dim font-bold">Enabled</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hardware & Network Settings -->
+            <div class="space-y-4 pt-2">
+                <div>
+                    <h3 class="text-lg font-headline font-bold text-on-surface">Hardware & Gateway Settings</h3>
+                    <p class="text-xs text-on-surface-variant">Arduino Uno & Python Gateway connection</p>
+                </div>
+
+                <div class="glass-card rounded-2xl p-5 space-y-4 shadow-md">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-surface-container border border-white/10 flex items-center justify-center text-primary-fixed-dim shadow-[0_0_10px_rgba(0,229,91,0.1)]">
+                            <span class="material-symbols-outlined">router</span>
+                        </div>
+                        <div>
+                            <h4 class="text-sm font-bold text-on-surface">Gateway Connection</h4>
+                            <p class="text-xs text-on-surface-variant">REST, SSE Stream & Mosquitto MQTT</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3 pt-1">
+                        <div>
+                            <label class="block text-xs font-mono text-on-surface-variant mb-1">Gateway IP Address</label>
+                            <input id="settings-ip-input" type="text" value="127.0.0.1" class="w-full px-4 py-2.5 rounded-xl glass-input text-on-surface focus:outline-none focus:border-primary-container transition-all font-mono text-sm">
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs font-mono text-on-surface-variant mb-1">Port</label>
+                                <input id="settings-port-input" type="text" value="5000" class="w-full px-4 py-2.5 rounded-xl glass-input text-on-surface focus:outline-none focus:border-primary-container transition-all font-mono text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-mono text-on-surface-variant mb-1">Protocol</label>
+                                <select class="w-full px-4 py-2.5 rounded-xl glass-input text-on-surface focus:outline-none focus:border-primary-container transition-all text-sm">
+                                    <option class="bg-surface">HTTP REST & SSE</option>
+                                    <option class="bg-surface">MQTT Mosquitto</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-2 flex justify-between items-center">
+                        <span id="test-conn-result" class="text-xs font-mono text-on-surface-variant">Ready</span>
+                        <button onclick="testConnection()" class="px-4 py-2 rounded-full bg-surface-container hover:bg-surface-variant text-on-surface text-xs font-bold border border-white/10 flex items-center gap-1.5 hover:border-primary-fixed-dim/40 transition-all shadow-sm active:scale-95">
+                            <span class="material-symbols-outlined text-sm text-primary-fixed-dim">sync</span>
+                            <span>Test Ping</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Appearance & UI Options -->
+                <div class="glass-card rounded-2xl p-5 space-y-3 shadow-md">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-surface-container border border-white/10 flex items-center justify-center text-primary-fixed-dim">
+                            <span class="material-symbols-outlined">palette</span>
+                        </div>
+                        <div>
+                            <h4 class="text-sm font-bold text-on-surface">Appearance & Aesthetics</h4>
+                            <p class="text-xs text-on-surface-variant">Liquid Crystal Glass Preferences</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3 pt-2">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <div class="text-sm text-on-surface font-medium">Liquid Glass Blur Effects</div>
+                                <div class="text-xs text-on-surface-variant">High-performance backdrop refraction</div>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" checked id="toggle-opt-blur" class="sr-only peer" onchange="toggleBlurEffect(this.checked)">
+                                <div class="w-11 h-6 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container shadow-inner"></div>
+                            </label>
+                        </div>
+
+                        <div class="flex items-center justify-between pt-2 border-t border-white/5">
+                            <div>
+                                <div class="text-sm text-on-surface font-medium">Ambient Atmospheric Glow</div>
+                                <div class="text-xs text-on-surface-variant">Emerald & mint radial light clouds</div>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" checked id="toggle-opt-glow" class="sr-only peer" onchange="toggleGlowEffect(this.checked)">
+                                <div class="w-11 h-6 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container shadow-inner"></div>
+                            </label>
+                        </div>
+
+                        <div class="flex items-center justify-between pt-2 border-t border-white/5">
+                            <div>
+                                <div class="text-sm text-on-surface font-medium">Web Audio Siren & Haptic</div>
+                                <div class="text-xs text-on-surface-variant">Audible hazard alarm sound synthesizer</div>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" checked id="toggle-opt-audio" class="sr-only peer" onchange="toggleAudioAlerts(this.checked)">
+                                <div class="w-11 h-6 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container shadow-inner"></div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- ======================================================================= -->
+    <!-- MODAL / SCREEN 5: CONNECT TO SMART HOME -->
+    <!-- ======================================================================= -->
+    <div id="modal-connect" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-xl transition-all">
+        <div class="w-full max-w-md glass-card rounded-3xl p-6 relative space-y-6 animate-scale-up border-2 border-primary-container/70 shadow-[0_0_40px_rgba(0,255,102,0.35)] bg-surface-container-lowest/95">
+            <!-- Glow background blob -->
+            <div class="absolute -right-12 -top-12 w-40 h-40 bg-primary-container/20 rounded-full blur-3xl pointer-events-none"></div>
+
+            <!-- Close Button -->
+            <button onclick="closeConnectModal()" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-surface-variant hover:bg-surface-container border border-primary-container/30 flex items-center justify-center text-primary-container transition-all active:scale-95">
+                <span class="material-symbols-outlined text-xl">close</span>
+            </button>
+
+            <!-- Discovery Badge & Title -->
+            <div class="flex flex-col items-center text-center space-y-2 pt-2">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary-container/15 border border-primary-container/40 shadow-[0_0_15px_rgba(0,255,102,0.2)]">
+                    <span class="w-2.5 h-2.5 rounded-full bg-primary-container animate-pulse shadow-[0_0_8px_#00ff66]"></span>
+                    <span class="text-xs text-primary-container font-mono font-bold tracking-wider uppercase">Arduino Gateway Link</span>
+                </div>
+                <h3 class="text-2xl font-headline font-black text-on-surface tracking-tight">Connect Gateway</h3>
+                <p class="text-xs text-on-surface-variant">Enter your Arduino Uno WiFi / LAN IP address</p>
+            </div>
+
+            <!-- Form (Only IP Address Needed) -->
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-mono font-bold text-primary-container uppercase tracking-wider mb-2 ml-1" for="modal-ip-address">
+                        Gateway IP Address
+                    </label>
+                    <div class="relative flex items-center">
+                        <span class="absolute left-3.5 text-primary-container pointer-events-none flex items-center">
+                            <span class="material-symbols-outlined text-xl">wifi_tethering</span>
+                        </span>
+                        <input id="modal-ip-address" type="text" placeholder="192.168.1.100" class="w-full bg-surface-container/90 border-2 border-primary-container/50 focus:border-primary-container focus:ring-2 focus:ring-primary-container/60 rounded-xl py-3.5 pl-11 pr-4 text-primary-container placeholder:text-outline font-mono text-base font-bold transition-all outline-none shadow-inner">
+                    </div>
+                    <div class="flex items-center justify-between mt-2 px-1">
+                        <span class="text-[11px] text-on-surface-variant font-mono">Port: <span class="text-primary-container font-bold">5000</span> (Automatic)</span>
+                        <span class="text-[11px] text-primary-fixed-dim font-mono">Protocol: HTTP/SSE</span>
+                    </div>
+                </div>
+
+                <!-- Quick Presets -->
+                <div class="space-y-1.5 pt-1">
+                    <span class="text-[10px] font-mono uppercase text-on-surface-variant tracking-wider ml-1">Quick Select</span>
+                    <div class="grid grid-cols-3 gap-2">
+                        <button type="button" onclick="setPresetIp('127.0.0.1')" class="py-2 px-2 rounded-xl bg-surface-variant/70 hover:bg-surface-variant text-on-surface hover:text-primary-container border border-white/10 hover:border-primary-container/40 text-xs font-mono font-semibold transition-all active:scale-95">
+                            Localhost
+                        </button>
+                        <button type="button" onclick="setPresetIp('10.0.2.2')" class="py-2 px-2 rounded-xl bg-surface-variant/70 hover:bg-surface-variant text-on-surface hover:text-primary-container border border-white/10 hover:border-primary-container/40 text-xs font-mono font-semibold transition-all active:scale-95">
+                            Emulator
+                        </button>
+                        <button type="button" onclick="detectLanIp()" class="py-2 px-2 rounded-xl bg-primary-container/15 hover:bg-primary-container/25 text-primary-container border border-primary-container/40 text-xs font-mono font-bold transition-all active:scale-95 shadow-[0_0_10px_rgba(0,255,102,0.15)]">
+                            Auto Host
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Connect Button -->
+                <button onclick="handleModalConnect()" class="w-full py-4 px-4 rounded-xl bg-primary-container hover:bg-primary-container/90 active:scale-[0.98] text-surface-container-lowest font-black text-base shadow-[0_0_25px_rgba(0,255,102,0.45)] hover:shadow-[0_0_35px_rgba(0,255,102,0.6)] transition-all flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined text-xl">bolt</span>
+                    <span>CONNECT TO GATEWAY</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======================================================================= -->
+    <!-- FLOATING LIQUID CRYSTAL GLASS BOTTOM NAVIGATION BAR -->
+    <!-- ======================================================================= -->
+    <nav class="fixed bottom-0 left-0 right-0 z-50 flex justify-center items-center px-4 py-3 pointer-events-none">
+        <div class="w-full max-w-md pointer-events-auto backdrop-blur-3xl bg-surface/75 border border-white/10 rounded-full shadow-2xl shadow-primary-container/15 flex justify-around items-center p-1.5">
+            <!-- Nav Item 1: Home (Active) -->
+            <button onclick="showScreen('home')" id="nav-btn-home" class="nav-item active flex flex-col items-center justify-center px-4 py-2.5 rounded-full transition-all duration-200 active:scale-95">
+                <span class="material-symbols-outlined text-xl">home</span>
+                <span class="text-[10px] font-semibold tracking-wide mt-0.5">Home</span>
+            </button>
+
+            <!-- Nav Item 2: Rooms / Lights -->
+            <button onclick="showScreen('lights')" id="nav-btn-lights" class="nav-item flex flex-col items-center justify-center px-4 py-2.5 rounded-full text-on-surface-variant transition-all duration-200 active:scale-95">
+                <span class="material-symbols-outlined text-xl">meeting_room</span>
+                <span class="text-[10px] font-semibold tracking-wide mt-0.5">Rooms</span>
+            </button>
+
+            <!-- Nav Item 3: Sensors Hub -->
+            <button onclick="showScreen('sensors')" id="nav-btn-sensors" class="nav-item flex flex-col items-center justify-center px-4 py-2.5 rounded-full text-on-surface-variant transition-all duration-200 active:scale-95">
+                <span class="material-symbols-outlined text-xl">sensors</span>
+                <span class="text-[10px] font-semibold tracking-wide mt-0.5">Sensors</span>
+            </button>
+
+            <!-- Nav Item 4: Automation & Settings -->
+            <button onclick="showScreen('settings')" id="nav-btn-settings" class="nav-item flex flex-col items-center justify-center px-4 py-2.5 rounded-full text-on-surface-variant transition-all duration-200 active:scale-95">
+                <span class="material-symbols-outlined text-xl">tune</span>
+                <span class="text-[10px] font-semibold tracking-wide mt-0.5">Rules</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Scripts -->
+    <script src="/static/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Smart Home Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "secondary-fixed-dim": "#afceb8",
+          "surface-container-highest": "#2d3732",
+          "tertiary-fixed": "#9af7a7",
+          "inverse-surface": "#dbe5de",
+          "outline-variant": "#3b4b3a",
+          "on-tertiary-fixed-variant": "#005321",
+          "surface-tint": "#00e55b",
+          "on-surface-variant": "#b9ccb5",
+          "on-primary-fixed": "#002107",
+          "on-background": "#dbe5de",
+          "surface-container-lowest": "#07100c",
+          "inverse-on-surface": "#29322e",
+          "tertiary-container": "#95f2a2",
+          "surface-dim": "#0c1511",
+          "on-surface": "#dbe5de",
+          "surface-variant": "#2d3732",
+          "background": "#09120e",
+          "surface-bright": "#323b36",
+          "surface-container": "#18221d",
+          "surface-container-low": "#141d19",
+          "tertiary": "#edffea",
+          "secondary-container": "#314d3c",
+          "on-primary": "#003911",
+          "on-secondary-fixed-variant": "#314d3c",
+          "on-error-container": "#ffdad6",
+          "surface-container-high": "#232c27",
+          "surface": "#09120e",
+          "primary": "#edffe8",
+          "primary-container": "#00ff66",
+          "error": "#ffb4ab",
+          "secondary": "#afceb8",
+          "on-secondary": "#1b3627",
+          "on-primary-container": "#007128",
+          "primary-fixed-dim": "#00e55b",
+          "secondary-fixed": "#caead4",
+          "on-error": "#690005",
+          "inverse-primary": "#006e27",
+          "error-container": "#93000a",
+          "on-secondary-container": "#9ebca7",
+          "on-tertiary-fixed": "#002109",
+          "on-primary-fixed-variant": "#00531b",
+          "on-tertiary": "#003915",
+          "on-secondary-fixed": "#042013",
+          "tertiary-fixed-dim": "#7eda8d",
+          "primary-fixed": "#6bff83",
+          "outline": "#849581",
+          "on-tertiary-container": "#047130"
+        },
+        "borderRadius": {
+          "DEFAULT": "0.25rem",
+          "lg": "0.5rem",
+          "xl": "0.75rem",
+          "full": "9999px"
+        },
+        "spacing": {
+          "space-sm": "0.5rem",
+          "margin": "2rem",
+          "space-md": "1rem",
+          "space-lg": "1.75rem",
+          "space-xs": "0.25rem",
+          "space-xl": "3rem",
+          "gutter": "1.5rem"
+        },
+        "fontFamily": {
+          "body-md": ["Inter"],
+          "body-sm": ["Inter"],
+          "headline-lg": ["Space Grotesk"],
+          "label-sm": ["Inter"],
+          "headline-lg-mobile": ["Space Grotesk"],
+          "headline-sm": ["Space Grotesk"],
+          "label-md": ["Inter"],
+          "label-lg": ["Inter"],
+          "body-lg": ["Inter"],
+          "headline-md": ["Space Grotesk"]
+        },
+        "fontSize": {
+          "body-md": ["15px", { "lineHeight": "22px", "fontWeight": "400" }],
+          "body-sm": ["13px", { "lineHeight": "18px", "fontWeight": "400" }],
+          "headline-lg": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+          "label-sm": ["10px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "600" }],
+          "headline-lg-mobile": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+          "headline-sm": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+          "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+          "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+          "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+          "headline-md": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "500" }]
+        }
+      }
+    }
+  }
+</script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased min-h-screen pb-28 selection:bg-secondary selection:text-on-secondary">
+<!-- TopAppBar Component -->
+<header class="fixed top-0 left-0 right-0 z-40 bg-surface/40 dark:bg-surface/40 backdrop-blur-3xl shadow-sm">
+<div class="flex justify-between items-center w-full px-4 py-3">
+<div class="flex items-center space-x-3">
+<div class="w-10 h-10 rounded-full bg-surface-variant flex items-center justify-center overflow-hidden border border-white/10" title="User profile avatar">
+<img class="w-full h-full object-cover" data-alt="A detailed portrait of a modern tech-savvy individual with a serene expression, illuminated by soft ambient cyan and violet lighting inside a futuristic smart home living room with liquid glass architectural elements." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8tl71TNjrwVXkAr6QCfWcDb0wGvH0GFYimxHMM2jWUnjXNX1xTg4rQClpRjhHZEh87ZysqLtBtPrCvQ16QnCeYVTJ6VbYHC-kiFLj8j4KOy1-_1xLBNP8fQ11TTswAef71Om4att8d2lm5jyxQjKMvQEIX21fMkih8YSmOUlTd-Fom3IYEiQ6mvN5W3f_PG2aEJl_LGfazkx-GsFRsLXBhor9PlyhAT_LbPe26Etu6MFLBuq6FK-BXA"/>
+</div>
+<div>
+<span class="text-label-md font-label-md text-on-surface-variant">Welcome back</span>
+<h1 class="text-headline-sm font-headline-sm font-bold text-on-surface dark:text-inverse-surface">Smart Home</h1>
+</div>
+</div>
+<button class="w-10 h-10 rounded-full bg-surface-variant/50 flex items-center justify-center text-on-surface hover:bg-surface-variant/50 dark:hover:bg-inverse-surface/50 transition-all duration-200 active:scale-98">
+<span class="material-symbols-outlined text-on-surface">notifications</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="pt-20 px-4 max-w-lg mx-auto space-y-space-lg">
+<!-- Greeting & Home Header -->
+<section class="flex justify-between items-end pt-2">
+<div>
+<h2 class="text-headline-lg-mobile font-headline-lg-mobile text-on-surface">Good evening, Alex</h2>
+<div class="flex items-center space-x-2 mt-1">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary animate-pulse"></span>
+<span class="text-label-lg font-label-lg text-secondary">My Home • Connected</span>
+</div>
+</div>
+</section>
+<!-- Home Status Overview Card -->
+<section class="bg-surface-container/60 backdrop-blur-2xl border border-white/10 p-5 rounded-lg shadow-lg relative overflow-hidden">
+<div class="absolute -right-10 -bottom-10 w-32 h-32 bg-primary-container/20 rounded-full blur-2xl pointer-events-none"></div>
+<div class="flex justify-between items-start mb-4">
+<div>
+<span class="text-label-md font-label-md text-on-surface-variant uppercase tracking-wider">System Overview</span>
+<h3 class="text-headline-sm font-headline-sm text-on-surface font-semibold mt-0.5">Home Status</h3>
+</div>
+<span class="px-3 py-1 rounded-full bg-primary-container/20 text-primary-fixed-dim text-label-md font-label-md border border-primary-fixed-dim/20">Optimal</span>
+</div>
+<div class="grid grid-cols-2 gap-4 mt-4 pt-4 border-t border-white/5">
+<div class="flex items-center space-x-3">
+<div class="w-10 h-10 rounded-full bg-surface-variant/80 flex items-center justify-center text-primary-fixed-dim">
+<span class="material-symbols-outlined">lightbulb</span>
+</div>
+<div>
+<span class="text-body-sm text-on-surface-variant">Active Lights</span>
+<p class="text-body-lg font-bold text-on-surface">3/5</p>
+</div>
+</div>
+<div class="flex items-center space-x-3">
+<div class="w-10 h-10 rounded-full bg-surface-variant/80 flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined">verified_user</span>
+</div>
+<div>
+<span class="text-body-sm text-on-surface-variant">Systems</span>
+<p class="text-body-lg font-bold text-on-surface">Normal</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Quick Light Control Cards -->
+<section class="space-y-4">
+<div class="flex justify-between items-center">
+<h3 class="text-headline-sm font-headline-sm text-on-surface">Quick Controls</h3>
+<span class="text-label-md font-label-md text-on-surface-variant">Rooms</span>
+</div>
+<div class="grid grid-cols-1 gap-4">
+<!-- Living Room Card -->
+<div class="bg-surface-container/60 backdrop-blur-2xl border border-white/10 p-5 rounded-lg shadow-lg transition-all duration-200">
+<div class="flex justify-between items-center mb-4">
+<div class="flex items-center space-x-3">
+<div class="w-10 h-10 rounded-full bg-primary-container/20 text-primary-fixed-dim flex items-center justify-center border border-primary-fixed-dim/20">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">weekend</span>
+</div>
+<div>
+<h4 class="text-body-lg font-bold text-on-surface">Living Room</h4>
+<p class="text-body-sm text-primary-fixed-dim">3 lights active</p>
+</div>
+</div>
+<!-- Glass Toggle Switch -->
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-12 h-7 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-primary-container shadow-inner"></div>
+</label>
+</div>
+<!-- Brightness Slider -->
+<div class="space-y-2 mt-2">
+<div class="flex justify-between text-body-sm">
+<span class="text-on-surface-variant">Brightness</span>
+<span class="text-primary-fixed-dim font-medium">75%</span>
+</div>
+<input class="w-full h-2 bg-surface-variant rounded-lg appearance-none cursor-pointer accent-primary-fixed-dim" max="100" min="0" type="range" value="75"/>
+</div>
+</div>
+<!-- Bedroom Card -->
+<div class="bg-surface-container/60 backdrop-blur-2xl border border-white/10 p-5 rounded-lg shadow-lg transition-all duration-200">
+<div class="flex justify-between items-center mb-4">
+<div class="flex items-center space-x-3">
+<div class="w-10 h-10 rounded-full bg-surface-variant text-on-surface-variant flex items-center justify-center">
+<span class="material-symbols-outlined">king_bed</span>
+</div>
+<div>
+<h4 class="text-body-lg font-bold text-on-surface">Bedroom</h4>
+<p class="text-body-sm text-on-surface-variant">Off</p>
+</div>
+</div>
+<!-- Glass Toggle Switch -->
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox"/>
+<div class="w-12 h-7 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-primary-container shadow-inner"></div>
+</label>
+</div>
+<!-- Brightness Slider -->
+<div class="space-y-2 mt-2 opacity-60">
+<div class="flex justify-between text-body-sm">
+<span class="text-on-surface-variant">Brightness</span>
+<span class="text-on-surface-variant font-medium">30%</span>
+</div>
+<input class="w-full h-2 bg-surface-variant rounded-lg appearance-none cursor-pointer accent-primary-fixed-dim" disabled="" max="100" min="0" type="range" value="30"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Sensor Overview Grid -->
+<section class="space-y-4 pb-4">
+<div class="flex justify-between items-center">
+<h3 class="text-headline-sm font-headline-sm text-on-surface">Environmental Sensors</h3>
+<span class="text-label-md font-label-md text-primary-fixed-dim">Live</span>
+</div>
+<div class="grid grid-cols-2 gap-3">
+<!-- Gas Sensor -->
+<div class="bg-surface-container/40 backdrop-blur-xl border border-white/5 p-4 rounded-lg flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<span class="text-body-sm text-on-surface-variant">Gas</span>
+<span class="material-symbols-outlined text-primary-fixed-dim text-sm">air</span>
+</div>
+<div class="mt-3">
+<span class="text-headline-sm font-bold text-on-surface">Safe</span>
+<p class="text-label-sm text-primary-fixed-dim mt-0.5">0.02 PPM</p>
+</div>
+</div>
+<!-- Flame Sensor -->
+<div class="bg-surface-container/40 backdrop-blur-xl border border-white/5 p-4 rounded-lg flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<span class="text-body-sm text-on-surface-variant">Flame</span>
+<span class="material-symbols-outlined text-primary-fixed-dim text-sm">local_fire_department</span>
+</div>
+<div class="mt-3">
+<span class="text-headline-sm font-bold text-on-surface">Clear</span>
+<p class="text-label-sm text-primary-fixed-dim mt-0.5">No anomaly</p>
+</div>
+</div>
+<!-- LDR Sensor -->
+<div class="bg-surface-container/40 backdrop-blur-xl border border-white/5 p-4 rounded-lg flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<span class="text-body-sm text-on-surface-variant">LDR (Light)</span>
+<span class="material-symbols-outlined text-tertiary text-sm">wb_sunny</span>
+</div>
+<div class="mt-3">
+<span class="text-headline-sm font-bold text-on-surface">420</span>
+<p class="text-label-sm text-tertiary mt-0.5">Lux level</p>
+</div>
+</div>
+<!-- IR Sensor -->
+<div class="bg-surface-container/40 backdrop-blur-xl border border-white/5 p-4 rounded-lg flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<span class="text-body-sm text-on-surface-variant">IR Motion</span>
+<span class="material-symbols-outlined text-primary-fixed-dim text-sm">sensors</span>
+</div>
+<div class="mt-3">
+<span class="text-headline-sm font-bold text-on-surface">Active</span>
+<p class="text-label-sm text-primary-fixed-dim mt-0.5">Movement detected</p>
+</div>
+</div>
+<!-- Humidity Sensor (Span 2) -->
+<div class="col-span-2 bg-surface-container/40 backdrop-blur-xl border border-white/5 p-4 rounded-lg flex items-center justify-between">
+<div class="flex items-center space-x-3">
+<div class="w-10 h-10 rounded-full bg-surface-variant flex items-center justify-center text-primary-fixed-dim">
+<span class="material-symbols-outlined">humidity_percentage</span>
+</div>
+<div>
+<span class="text-body-sm text-on-surface-variant">Humidity &amp; Temperature</span>
+<h4 class="text-body-lg font-bold text-on-surface">48% • 22.4°C</h4>
+</div>
+</div>
+<span class="px-2.5 py-1 rounded-full bg-surface-variant text-primary-fixed-dim text-label-md">Normal</span>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar Component -->
+<nav class="fixed bottom-0 left-0 right-0 z-50 flex justify-around items-center px-4 py-2">
+<div class="w-full max-w-md mx-auto backdrop-blur-3xl bg-surface/30 border border-white/10 rounded-full shadow-lg shadow-primary-container/10 flex justify-around items-center px-2 py-2 mb-4">
+<!-- Home (Active) -->
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary rounded-full p-3 transition-transform duration-200 active:scale-95 shadow-[0_0_15px_rgba(0,255,102,0.4)]" href="#">
+<span class="material-symbols-outlined text-on-primary">home</span>
+</a>
+<!-- Rooms (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant p-3 hover:text-on-surface dark:hover:text-inverse-on-surface transition-transform duration-200 active:scale-95" href="#">
+<span class="material-symbols-outlined">meeting_room</span>
+</a>
+<!-- Automation (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant p-3 hover:text-on-surface dark:hover:text-inverse-on-surface transition-transform duration-200 active:scale-95" href="#">
+<span class="material-symbols-outlined">bolt</span>
+</a>
+<!-- Settings (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant p-3 hover:text-on-surface dark:hover:text-inverse-on-surface transition-transform duration-200 active:scale-95" href="#">
+<span class="material-symbols-outlined">settings</span>
+</a>
+</div>
+</nav>
+</body></html>

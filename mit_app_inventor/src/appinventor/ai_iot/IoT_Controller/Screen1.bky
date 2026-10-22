@@ -1,0 +1,491 @@
+<xml xmlns="http://www.w3.org/1999/xhtml">
+  <block type="global_declaration" id="var_server_url" x="20" y="20">
+    <field name="NAME">server_url</field>
+    <value name="VALUE">
+      <block type="text" id="text_init_ip">
+        <field name="TEXT">http://192.168.1.100:5000</field>
+      </block>
+    </value>
+  </block>
+
+  <block type="procedures_defnoreturn" id="proc_sendCommand" x="20" y="80">
+    <field name="NAME">sendCommand</field>
+    <field name="VAR0">endpoint</field>
+    <statement name="STACK">
+      <block type="component_set_get" id="set_web_url">
+        <mutation component_type="Web" set_or_get="set" property_name="Url" is_generic="false" instance_name="Web1"></mutation>
+        <field name="COMPONENT_SELECTOR">Web1</field>
+        <field name="PROP">Url</field>
+        <value name="VALUE">
+          <block type="text_join" id="join_cmd_url">
+            <mutation items="2"></mutation>
+            <value name="ADD0">
+              <block type="lexical_variable_get" id="get_srv_url">
+                <field name="VAR">global server_url</field>
+              </block>
+            </value>
+            <value name="ADD1">
+              <block type="lexical_variable_get" id="get_ep">
+                <field name="VAR">endpoint</field>
+              </block>
+            </value>
+          </block>
+        </value>
+        <next>
+          <block type="component_method" id="call_post_text">
+            <mutation component_type="Web" method_name="PostText" is_generic="false" instance_name="Web1"></mutation>
+            <field name="COMPONENT_SELECTOR">Web1</field>
+            <value name="ARG0">
+              <block type="text" id="empty_post_body">
+                <field name="TEXT"></field>
+              </block>
+            </value>
+          </block>
+        </next>
+      </block>
+    </statement>
+  </block>
+
+  <block type="procedures_defnoreturn" id="proc_requestStatus" x="20" y="260">
+    <field name="NAME">requestStatus</field>
+    <statement name="STACK">
+      <block type="component_set_get" id="set_web_status_url">
+        <mutation component_type="Web" set_or_get="set" property_name="Url" is_generic="false" instance_name="Web1"></mutation>
+        <field name="COMPONENT_SELECTOR">Web1</field>
+        <field name="PROP">Url</field>
+        <value name="VALUE">
+          <block type="text_join" id="join_status_url">
+            <mutation items="2"></mutation>
+            <value name="ADD0">
+              <block type="lexical_variable_get" id="get_srv_status">
+                <field name="VAR">global server_url</field>
+              </block>
+            </value>
+            <value name="ADD1">
+              <block type="text" id="status_ep">
+                <field name="TEXT">/api/status</field>
+              </block>
+            </value>
+          </block>
+        </value>
+        <next>
+          <block type="component_method" id="call_web_get">
+            <mutation component_type="Web" method_name="Get" is_generic="false" instance_name="Web1"></mutation>
+            <field name="COMPONENT_SELECTOR">Web1</field>
+          </block>
+        </next>
+      </block>
+    </statement>
+  </block>
+
+  <block type="component_event" id="screen_init" x="20" y="440">
+    <mutation component_type="Form" is_generic="false" instance_name="Screen1" event_name="Initialize"></mutation>
+    <field name="COMPONENT_SELECTOR">Screen1</field>
+    <statement name="DO">
+      <block type="lexical_variable_set" id="set_loaded_url">
+        <field name="VAR">global server_url</field>
+        <value name="VALUE">
+          <block type="component_method" id="call_db_get">
+            <mutation component_type="TinyDB" method_name="GetValue" is_generic="false" instance_name="TinyDB1"></mutation>
+            <field name="COMPONENT_SELECTOR">TinyDB1</field>
+            <value name="ARG0">
+              <block type="text" id="tag_ip">
+                <field name="TEXT">server_url</field>
+              </block>
+            </value>
+            <value name="ARG1">
+              <block type="text" id="default_ip">
+                <field name="TEXT">http://192.168.1.100:5000</field>
+              </block>
+            </value>
+          </block>
+        </value>
+        <next>
+          <block type="component_set_get" id="set_box_ip">
+            <mutation component_type="TextBox" set_or_get="set" property_name="Text" is_generic="false" instance_name="TextBox_ServerIP"></mutation>
+            <field name="COMPONENT_SELECTOR">TextBox_ServerIP</field>
+            <field name="PROP">Text</field>
+            <value name="VALUE">
+              <block type="lexical_variable_get" id="get_url_for_box">
+                <field name="VAR">global server_url</field>
+              </block>
+            </value>
+            <next>
+              <block type="procedures_callnoreturn" id="call_initial_status">
+                <mutation name="requestStatus"></mutation>
+                <field name="PROCNAME">requestStatus</field>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+  </block>
+
+  <block type="component_event" id="save_ip_click" x="20" y="660">
+    <mutation component_type="Button" is_generic="false" instance_name="Button_SaveIP" event_name="Click"></mutation>
+    <field name="COMPONENT_SELECTOR">Button_SaveIP</field>
+    <statement name="DO">
+      <block type="lexical_variable_set" id="update_srv_url">
+        <field name="VAR">global server_url</field>
+        <value name="VALUE">
+          <block type="component_set_get" id="get_text_from_box">
+            <mutation component_type="TextBox" set_or_get="get" property_name="Text" is_generic="false" instance_name="TextBox_ServerIP"></mutation>
+            <field name="COMPONENT_SELECTOR">TextBox_ServerIP</field>
+            <field name="PROP">Text</field>
+          </block>
+        </value>
+        <next>
+          <block type="component_method" id="save_to_tinydb">
+            <mutation component_type="TinyDB" method_name="StoreValue" is_generic="false" instance_name="TinyDB1"></mutation>
+            <field name="COMPONENT_SELECTOR">TinyDB1</field>
+            <value name="ARG0">
+              <block type="text" id="store_tag">
+                <field name="TEXT">server_url</field>
+              </block>
+            </value>
+            <value name="ARG1">
+              <block type="lexical_variable_get" id="store_val">
+                <field name="VAR">global server_url</field>
+              </block>
+            </value>
+            <next>
+              <block type="component_method" id="show_saved_alert">
+                <mutation component_type="Notifier" method_name="ShowAlert" is_generic="false" instance_name="Notifier1"></mutation>
+                <field name="COMPONENT_SELECTOR">Notifier1</field>
+                <value name="ARG0">
+                  <block type="text" id="alert_saved_msg">
+                    <field name="TEXT">Server URL Saved!</field>
+                  </block>
+                </value>
+                <next>
+                  <block type="procedures_callnoreturn" id="call_req_after_save">
+                    <mutation name="requestStatus"></mutation>
+                    <field name="PROCNAME">requestStatus</field>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+  </block>
+
+  <block type="component_event" id="clock_timer_event" x="20" y="900">
+    <mutation component_type="Clock" is_generic="false" instance_name="Clock1" event_name="Timer"></mutation>
+    <field name="COMPONENT_SELECTOR">Clock1</field>
+    <statement name="DO">
+      <block type="procedures_callnoreturn" id="call_req_timer">
+        <mutation name="requestStatus"></mutation>
+        <field name="PROCNAME">requestStatus</field>
+      </block>
+    </statement>
+  </block>
+
+  <block type="component_event" id="refresh_click" x="20" y="1000">
+    <mutation component_type="Button" is_generic="false" instance_name="Button_Refresh" event_name="Click"></mutation>
+    <field name="COMPONENT_SELECTOR">Button_Refresh</field>
+    <statement name="DO">
+      <block type="procedures_callnoreturn" id="call_req_refresh">
+        <mutation name="requestStatus"></mutation>
+        <field name="PROCNAME">requestStatus</field>
+      </block>
+    </statement>
+  </block>
+
+  <block type="component_event" id="d1_on_click" x="480" y="20">
+    <mutation component_type="Button" is_generic="false" instance_name="Button_Dev1_On" event_name="Click"></mutation>
+    <field name="COMPONENT_SELECTOR">Button_Dev1_On</field>
+    <statement name="DO">
+      <block type="procedures_callnoreturn" id="call_d1_on">
+        <mutation name="sendCommand">
+          <arg name="endpoint"></arg>
+        </mutation>
+        <field name="PROCNAME">sendCommand</field>
+        <value name="ARG0">
+          <block type="text" id="txt_d1_on">
+            <field name="TEXT">/api/device/1/on</field>
+          </block>
+        </value>
+      </block>
+    </statement>
+  </block>
+
+  <block type="component_event" id="d1_off_click" x="480" y="120">
+    <mutation component_type="Button" is_generic="false" instance_name="Button_Dev1_Off" event_name="Click"></mutation>
+    <field name="COMPONENT_SELECTOR">Button_Dev1_Off</field>
+    <statement name="DO">
+      <block type="procedures_callnoreturn" id="call_d1_off">
+        <mutation name="sendCommand">
+          <arg name="endpoint"></arg>
+        </mutation>
+        <field name="PROCNAME">sendCommand</field>
+        <value name="ARG0">
+          <block type="text" id="txt_d1_off">
+            <field name="TEXT">/api/device/1/off</field>
+          </block>
+        </value>
+      </block>
+    </statement>
+  </block>
+
+  <block type="component_event" id="d2_on_click" x="480" y="220">
+    <mutation component_type="Button" is_generic="false" instance_name="Button_Dev2_On" event_name="Click"></mutation>
+    <field name="COMPONENT_SELECTOR">Button_Dev2_On</field>
+    <statement name="DO">
+      <block type="procedures_callnoreturn" id="call_d2_on">
+        <mutation name="sendCommand">
+          <arg name="endpoint"></arg>
+        </mutation>
+        <field name="PROCNAME">sendCommand</field>
+        <value name="ARG0">
+          <block type="text" id="txt_d2_on">
+            <field name="TEXT">/api/device/2/on</field>
+          </block>
+        </value>
+      </block>
+    </statement>
+  </block>
+
+  <block type="component_event" id="d2_off_click" x="480" y="320">
+    <mutation component_type="Button" is_generic="false" instance_name="Button_Dev2_Off" event_name="Click"></mutation>
+    <field name="COMPONENT_SELECTOR">Button_Dev2_Off</field>
+    <statement name="DO">
+      <block type="procedures_callnoreturn" id="call_d2_off">
+        <mutation name="sendCommand">
+          <arg name="endpoint"></arg>
+        </mutation>
+        <field name="PROCNAME">sendCommand</field>
+        <value name="ARG0">
+          <block type="text" id="txt_d2_off">
+            <field name="TEXT">/api/device/2/off</field>
+          </block>
+        </value>
+      </block>
+    </statement>
+  </block>
+
+  <block type="component_event" id="d3_on_click" x="480" y="420">
+    <mutation component_type="Button" is_generic="false" instance_name="Button_Dev3_On" event_name="Click"></mutation>
+    <field name="COMPONENT_SELECTOR">Button_Dev3_On</field>
+    <statement name="DO">
+      <block type="procedures_callnoreturn" id="call_d3_on">
+        <mutation name="sendCommand">
+          <arg name="endpoint"></arg>
+        </mutation>
+        <field name="PROCNAME">sendCommand</field>
+        <value name="ARG0">
+          <block type="text" id="txt_d3_on">
+            <field name="TEXT">/api/device/3/on</field>
+          </block>
+        </value>
+      </block>
+    </statement>
+  </block>
+
+  <block type="component_event" id="d3_off_click" x="480" y="520">
+    <mutation component_type="Button" is_generic="false" instance_name="Button_Dev3_Off" event_name="Click"></mutation>
+    <field name="COMPONENT_SELECTOR">Button_Dev3_Off</field>
+    <statement name="DO">
+      <block type="procedures_callnoreturn" id="call_d3_off">
+        <mutation name="sendCommand">
+          <arg name="endpoint"></arg>
+        </mutation>
+        <field name="PROCNAME">sendCommand</field>
+        <value name="ARG0">
+          <block type="text" id="txt_d3_off">
+            <field name="TEXT">/api/device/3/off</field>
+          </block>
+        </value>
+      </block>
+    </statement>
+  </block>
+
+  <block type="component_event" id="d4_on_click" x="480" y="620">
+    <mutation component_type="Button" is_generic="false" instance_name="Button_Dev4_On" event_name="Click"></mutation>
+    <field name="COMPONENT_SELECTOR">Button_Dev4_On</field>
+    <statement name="DO">
+      <block type="procedures_callnoreturn" id="call_d4_on">
+        <mutation name="sendCommand">
+          <arg name="endpoint"></arg>
+        </mutation>
+        <field name="PROCNAME">sendCommand</field>
+        <value name="ARG0">
+          <block type="text" id="txt_d4_on">
+            <field name="TEXT">/api/device/4/on</field>
+          </block>
+        </value>
+      </block>
+    </statement>
+  </block>
+
+  <block type="component_event" id="d4_off_click" x="480" y="720">
+    <mutation component_type="Button" is_generic="false" instance_name="Button_Dev4_Off" event_name="Click"></mutation>
+    <field name="COMPONENT_SELECTOR">Button_Dev4_Off</field>
+    <statement name="DO">
+      <block type="procedures_callnoreturn" id="call_d4_off">
+        <mutation name="sendCommand">
+          <arg name="endpoint"></arg>
+        </mutation>
+        <field name="PROCNAME">sendCommand</field>
+        <value name="ARG0">
+          <block type="text" id="txt_d4_off">
+            <field name="TEXT">/api/device/4/off</field>
+          </block>
+        </value>
+      </block>
+    </statement>
+  </block>
+
+  <block type="component_event" id="all_on_click" x="480" y="820">
+    <mutation component_type="Button" is_generic="false" instance_name="Button_AllOn" event_name="Click"></mutation>
+    <field name="COMPONENT_SELECTOR">Button_AllOn</field>
+    <statement name="DO">
+      <block type="procedures_callnoreturn" id="call_all_on">
+        <mutation name="sendCommand">
+          <arg name="endpoint"></arg>
+        </mutation>
+        <field name="PROCNAME">sendCommand</field>
+        <value name="ARG0">
+          <block type="text" id="txt_all_on">
+            <field name="TEXT">/api/devices/all/on</field>
+          </block>
+        </value>
+      </block>
+    </statement>
+  </block>
+
+  <block type="component_event" id="all_off_click" x="480" y="920">
+    <mutation component_type="Button" is_generic="false" instance_name="Button_AllOff" event_name="Click"></mutation>
+    <field name="COMPONENT_SELECTOR">Button_AllOff</field>
+    <statement name="DO">
+      <block type="procedures_callnoreturn" id="call_all_off">
+        <mutation name="sendCommand">
+          <arg name="endpoint"></arg>
+        </mutation>
+        <field name="PROCNAME">sendCommand</field>
+        <value name="ARG0">
+          <block type="text" id="txt_all_off">
+            <field name="TEXT">/api/devices/all/off</field>
+          </block>
+        </value>
+      </block>
+    </statement>
+  </block>
+
+  <block type="component_event" id="web_got_text" x="900" y="20">
+    <mutation component_type="Web" is_generic="false" instance_name="Web1" event_name="GotText"></mutation>
+    <field name="COMPONENT_SELECTOR">Web1</field>
+    <statement name="DO">
+      <block type="controls_if" id="check_code_200">
+        <value name="IF0">
+          <block type="math_compare" id="cmp_200">
+            <field name="OP">EQ</field>
+            <value name="A">
+              <block type="lexical_variable_get" id="get_resp_code">
+                <field name="VAR">responseCode</field>
+              </block>
+            </value>
+            <value name="B">
+              <block type="math_number" id="num_200">
+                <field name="NUM">200</field>
+              </block>
+            </value>
+          </block>
+        </value>
+        <statement name="DO0">
+          <block type="local_declaration_statement" id="local_json">
+            <mutation>
+              <var name="data"></var>
+            </mutation>
+            <field name="VAR0">data</field>
+            <value name="DECL0">
+              <block type="component_method" id="call_json_decode">
+                <mutation component_type="Web" method_name="JsonTextDecode" is_generic="false" instance_name="Web1"></mutation>
+                <field name="COMPONENT_SELECTOR">Web1</field>
+                <value name="ARG0">
+                  <block type="lexical_variable_get" id="get_resp_content">
+                    <field name="VAR">responseContent</field>
+                  </block>
+                </value>
+              </block>
+            </value>
+            <statement name="STACK">
+              <block type="component_set_get" id="set_mqtt_label">
+                <mutation component_type="Label" set_or_get="set" property_name="Text" is_generic="false" instance_name="Label_MqttStatus"></mutation>
+                <field name="COMPONENT_SELECTOR">Label_MqttStatus</field>
+                <field name="PROP">Text</field>
+                <value name="VALUE">
+                  <block type="text_join" id="join_mqtt_str">
+                    <mutation items="2"></mutation>
+                    <value name="ADD0">
+                      <block type="text" id="txt_mqtt_prefix">
+                        <field name="TEXT">📡 MQTT Broker: </field>
+                      </block>
+                    </value>
+                    <value name="ADD1">
+                      <block type="dictionaries_lookup_in_dictionary" id="dict_get_mqtt">
+                        <value name="KEY">
+                          <block type="text" id="k_mqtt">
+                            <field name="TEXT">mqtt</field>
+                          </block>
+                        </value>
+                        <value name="DICT">
+                          <block type="lexical_variable_get" id="get_data_dict1">
+                            <field name="VAR">data</field>
+                          </block>
+                        </value>
+                        <value name="NOTFOUND">
+                          <block type="text" id="nf_mqtt">
+                            <field name="TEXT">Unknown</field>
+                          </block>
+                        </value>
+                      </block>
+                    </value>
+                  </block>
+                </value>
+                <next>
+                  <block type="component_set_get" id="set_ard_label">
+                    <mutation component_type="Label" set_or_get="set" property_name="Text" is_generic="false" instance_name="Label_ArduinoStatus"></mutation>
+                    <field name="COMPONENT_SELECTOR">Label_ArduinoStatus</field>
+                    <field name="PROP">Text</field>
+                    <value name="VALUE">
+                      <block type="text_join" id="join_ard_str">
+                        <mutation items="2"></mutation>
+                        <value name="ADD0">
+                          <block type="text" id="txt_ard_prefix">
+                            <field name="TEXT">⚡ Arduino Uno: </field>
+                          </block>
+                        </value>
+                        <value name="ADD1">
+                          <block type="dictionaries_lookup_in_dictionary" id="dict_get_ard">
+                            <value name="KEY">
+                              <block type="text" id="k_ard">
+                                <field name="TEXT">arduino</field>
+                              </block>
+                            </value>
+                            <value name="DICT">
+                              <block type="lexical_variable_get" id="get_data_dict2">
+                                <field name="VAR">data</field>
+                              </block>
+                            </value>
+                            <value name="NOTFOUND">
+                              <block type="text" id="nf_ard">
+                                <field name="TEXT">Unknown</field>
+                              </block>
+                            </value>
+                          </block>
+                        </value>
+                      </block>
+                    </value>
+                  </block>
+                </next>
+              </block>
+            </statement>
+          </block>
+        </statement>
+      </block>
+    </statement>
+  </block>
+</xml>

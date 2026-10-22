@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Smart Home - Lights</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "secondary-fixed-dim": "#afceb8",
+          "surface-container-highest": "#2d3732",
+          "tertiary-fixed": "#9af7a7",
+          "inverse-surface": "#dbe5de",
+          "outline-variant": "#3b4b3a",
+          "on-tertiary-fixed-variant": "#005321",
+          "surface-tint": "#00e55b",
+          "on-surface-variant": "#b9ccb5",
+          "on-primary-fixed": "#002107",
+          "on-background": "#dbe5de",
+          "surface-container-lowest": "#07100c",
+          "inverse-on-surface": "#29322e",
+          "tertiary-container": "#95f2a2",
+          "surface-dim": "#0c1511",
+          "on-surface": "#dbe5de",
+          "surface-variant": "#2d3732",
+          "background": "#09120e",
+          "surface-bright": "#323b36",
+          "surface-container": "#18221d",
+          "surface-container-low": "#141d19",
+          "tertiary": "#edffea",
+          "secondary-container": "#314d3c",
+          "on-primary": "#003911",
+          "on-secondary-fixed-variant": "#314d3c",
+          "on-error-container": "#ffdad6",
+          "surface-container-high": "#232c27",
+          "surface": "#09120e",
+          "primary": "#edffe8",
+          "primary-container": "#00ff66",
+          "error": "#ffb4ab",
+          "secondary": "#afceb8",
+          "on-secondary": "#1b3627",
+          "on-primary-container": "#007128",
+          "primary-fixed-dim": "#00e55b",
+          "secondary-fixed": "#caead4",
+          "on-error": "#690005",
+          "inverse-primary": "#006e27",
+          "error-container": "#93000a",
+          "on-secondary-container": "#9ebca7",
+          "on-tertiary-fixed": "#002109",
+          "on-primary-fixed-variant": "#00531b",
+          "on-tertiary": "#003915",
+          "on-secondary-fixed": "#042013",
+          "tertiary-fixed-dim": "#7eda8d",
+          "primary-fixed": "#6bff83",
+          "outline": "#849581",
+          "on-tertiary-container": "#047130"
+        },
+        "borderRadius": {
+          "DEFAULT": "0.25rem",
+          "lg": "0.5rem",
+          "xl": "0.75rem",
+          "full": "9999px"
+        },
+        "spacing": {
+          "space-sm": "0.5rem",
+          "margin": "2rem",
+          "space-md": "1rem",
+          "space-lg": "1.75rem",
+          "space-xs": "0.25rem",
+          "space-xl": "3rem",
+          "gutter": "1.5rem"
+        },
+        "fontFamily": {
+          "body-md": ["Inter"],
+          "body-sm": ["Inter"],
+          "headline-lg": ["Space Grotesk"],
+          "label-sm": ["Inter"],
+          "headline-lg-mobile": ["Space Grotesk"],
+          "headline-sm": ["Space Grotesk"],
+          "label-md": ["Inter"],
+          "label-lg": ["Inter"],
+          "body-lg": ["Inter"],
+          "headline-md": ["Space Grotesk"]
+        },
+        "fontSize": {
+          "body-md": ["15px", { "lineHeight": "22px", "fontWeight": "400" }],
+          "body-sm": ["13px", { "lineHeight": "18px", "fontWeight": "400" }],
+          "headline-lg": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+          "label-sm": ["10px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "600" }],
+          "headline-lg-mobile": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+          "headline-sm": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+          "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+          "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+          "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+          "headline-md": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "500" }]
+        }
+      }
+    }
+  }
+</script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background min-h-screen font-body-md selection:bg-primary-container/30 pb-28">
+<!-- TopAppBar -->
+<header class="sticky top-0 z-40 w-full bg-surface/40 dark:bg-surface/40 backdrop-blur-3xl shadow-sm">
+<div class="flex justify-between items-center w-full px-4 py-3">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center border border-white/10 overflow-hidden">
+<span class="material-symbols-outlined text-on-surface" data-icon="account_circle">account_circle</span>
+</div>
+<span class="text-headline-sm font-headline-sm font-bold text-on-surface dark:text-inverse-surface">Smart Home</span>
+</div>
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-primary-container dark:text-primary-container hover:bg-surface-variant/50 transition-all duration-200">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+</div>
+</header>
+<main class="px-4 py-space-md max-w-md mx-auto space-y-space-md">
+<!-- Screen Title -->
+<div class="flex items-center justify-between">
+<div>
+<h1 class="text-headline-lg-mobile font-headline-lg-mobile text-on-surface">Lighting Control</h1>
+<p class="text-body-sm text-on-surface-variant">Manage ambience across all active zones</p>
+</div>
+<div class="px-3 py-1 rounded-full bg-primary-container/20 border border-primary-container/35 text-primary-container text-label-md flex items-center gap-1.5 shadow-[0_0_12px_rgba(0,255,102,0.15)]">
+<span class="w-2 h-2 rounded-full bg-primary-container animate-pulse shadow-[0_0_8px_#00ff66]"></span>
+        4 Lights ON
+      </div>
+</div>
+<!-- Master Control Card -->
+<div class="bg-surface-container/60 backdrop-blur-2xl border border-white/10 rounded-xl p-space-md shadow-lg space-y-space-md relative overflow-hidden">
+<div class="absolute -right-10 -top-10 w-32 h-32 bg-primary-container/10 rounded-full blur-2xl pointer-events-none"></div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-full bg-primary-container text-on-primary flex items-center justify-center shadow-lg shadow-primary-container/20">
+<span class="material-symbols-outlined" data-icon="lightbulb" style="font-variation-settings: 'FILL' 1;">lightbulb</span>
+</div>
+<div>
+<h2 class="text-headline-sm font-headline-sm text-on-surface">All Lights Master</h2>
+<p class="text-body-sm text-on-surface-variant">4 zones currently active</p>
+</div>
+</div>
+<!-- Master Toggle Switch -->
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-14 h-8 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-primary-container shadow-sm"></div>
+</label>
+</div>
+<div class="space-y-space-xs">
+<div class="flex justify-between text-body-sm text-on-surface-variant">
+<span>Master Brightness</span>
+<span>85%</span>
+</div>
+<input class="w-full h-2 bg-surface-variant rounded-lg appearance-none cursor-pointer accent-primary-container" max="100" min="0" type="range" value="85"/>
+</div>
+</div>
+<!-- Scene Controls -->
+<div>
+<h3 class="text-label-lg font-label-lg text-on-surface-variant mb-space-xs">Quick Scenes</h3>
+<div class="grid grid-cols-3 gap-2">
+<button class="flex flex-col items-center justify-center p-3 rounded-xl bg-surface-container/40 border border-white/10 hover:bg-surface-variant/50 transition-all text-on-surface">
+<span class="material-symbols-outlined mb-1 text-primary-container" data-icon="power_settings_new">power_settings_new</span>
+<span class="text-label-md">All Off</span>
+</button>
+<button class="flex flex-col items-center justify-center p-3 rounded-xl bg-primary-container text-on-primary shadow-md shadow-primary-container/25 transition-all">
+<span class="material-symbols-outlined mb-1" data-icon="wb_sunny" style="font-variation-settings: 'FILL' 1;">wb_sunny</span>
+<span class="text-label-md font-bold">Evening</span>
+</button>
+<button class="flex flex-col items-center justify-center p-3 rounded-xl bg-surface-container/40 border border-white/10 hover:bg-surface-variant/50 transition-all text-on-surface">
+<span class="material-symbols-outlined mb-1 text-tertiary" data-icon="bedtime">bedtime</span>
+<span class="text-label-md">Night</span>
+</button>
+</div>
+</div>
+<!-- Detailed Room Cards -->
+<div class="space-y-space-sm">
+<h3 class="text-label-lg font-label-lg text-on-surface-variant mb-space-xs">Zones &amp; Rooms</h3>
+<!-- Living Room -->
+<div class="bg-surface-container/60 backdrop-blur-2xl border border-white/10 rounded-xl p-space-md space-y-space-sm shadow-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-variant flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined" data-icon="weekend">weekend</span>
+</div>
+<div>
+<h4 class="text-headline-sm font-headline-sm text-on-surface text-base">Living Room</h4>
+<p class="text-body-sm text-primary-fixed-dim">Warm White • 75%</p>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-12 h-7 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+</div>
+<input class="w-full h-1.5 bg-surface-variant rounded-lg appearance-none cursor-pointer accent-primary-container" max="100" min="0" type="range" value="75"/>
+</div>
+<!-- Bedroom -->
+<div class="bg-surface-container/60 backdrop-blur-2xl border border-white/10 rounded-xl p-space-md space-y-space-sm shadow-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-variant flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined" data-icon="bed">bed</span>
+</div>
+<div>
+<h4 class="text-headline-sm font-headline-sm text-on-surface text-base">Bedroom</h4>
+<p class="text-body-sm text-primary-fixed-dim">Dim Ambient • 40%</p>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-12 h-7 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+</div>
+<input class="w-full h-1.5 bg-surface-variant rounded-lg appearance-none cursor-pointer accent-primary-container" max="100" min="0" type="range" value="40"/>
+</div>
+<!-- Kitchen -->
+<div class="bg-surface-container/60 backdrop-blur-2xl border border-white/10 rounded-xl p-space-md space-y-space-sm shadow-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-variant flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined" data-icon="kitchen">kitchen</span>
+</div>
+<div>
+<h4 class="text-headline-sm font-headline-sm text-on-surface text-base">Kitchen</h4>
+<p class="text-body-sm text-primary-fixed-dim">Task Light • 90%</p>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-12 h-7 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+</div>
+<input class="w-full h-1.5 bg-surface-variant rounded-lg appearance-none cursor-pointer accent-primary-container" max="100" min="0" type="range" value="90"/>
+</div>
+<!-- Outdoor -->
+<div class="bg-surface-container/60 backdrop-blur-2xl border border-white/10 rounded-xl p-space-md space-y-space-sm shadow-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-variant flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined" data-icon="park">park</span>
+</div>
+<div>
+<h4 class="text-headline-sm font-headline-sm text-on-surface text-base">Outdoor</h4>
+<p class="text-body-sm text-primary-fixed-dim">Garden Glow • 60%</p>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-12 h-7 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+</div>
+<input class="w-full h-1.5 bg-surface-variant rounded-lg appearance-none cursor-pointer accent-primary-container" max="100" min="0" type="range" value="60"/>
+</div>
+<!-- Desk Light -->
+<div class="bg-surface-container/60 backdrop-blur-2xl border border-white/10 rounded-xl p-space-md space-y-space-sm shadow-md opacity-75">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-variant flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="desk">desk</span>
+</div>
+<div>
+<h4 class="text-headline-sm font-headline-sm text-on-surface text-base">Desk Light</h4>
+<p class="text-body-sm text-on-surface-variant">Off</p>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox"/>
+<div class="w-12 h-7 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+</div>
+<input class="w-full h-1.5 bg-surface-variant rounded-lg appearance-none cursor-not-allowed opacity-50" disabled="" max="100" min="0" type="range" value="0"/>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 right-0 z-50 flex justify-around items-center px-4 py-2">
+<div class="w-full max-w-md mx-auto backdrop-blur-3xl bg-surface/80 border border-white/10 rounded-full mb-4 mx-4 shadow-lg shadow-primary-container/10 flex justify-around items-center p-2">
+<!-- Nav Item 1: Home -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant p-3 hover:text-on-surface dark:hover:text-inverse-on-surface transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="text-label-sm font-label-sm mt-1">Home</span>
+</a>
+<!-- Nav Item 2: Rooms -->
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary rounded-full p-3 transition-all duration-200 scale-95 shadow-md shadow-primary-container/20" href="#">
+<span class="material-symbols-outlined" data-icon="meeting_room" style="font-variation-settings: 'FILL' 1;">meeting_room</span>
+<span class="text-label-sm font-label-sm mt-1 font-bold">Rooms</span>
+</a>
+<!-- Nav Item 3: Automation -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant p-3 hover:text-on-surface dark:hover:text-inverse-on-surface transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="bolt">bolt</span>
+<span class="text-label-sm font-label-sm mt-1">Automation</span>
+</a>
+<!-- Nav Item 4: Settings -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant p-3 hover:text-on-surface dark:hover:text-inverse-on-surface transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="text-label-sm font-label-sm mt-1">Settings</span>
+</a>
+</div>
+</nav>
+</body></html>

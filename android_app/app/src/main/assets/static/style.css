@@ -1,0 +1,200 @@
+/*
+  ==============================================================================
+  SmartHome Pro - Liquid Crystal Glass Theme
+  Obsidian Charcoal Base with Radiant Emerald Glow & Mint Refraction
+  ==============================================================================
+*/
+
+:root {
+  --bg-obsidian: #09120e;
+  --surface-dim: #0c1511;
+  --surface-container: #18221d;
+  --surface-high: #232c27;
+  --primary-emerald: #00ff66;
+  --primary-glow: rgba(0, 255, 102, 0.35);
+  --mint-highlight: #8ce99a;
+  --mint-border: rgba(140, 233, 154, 0.15);
+  --text-main: #dbe5de;
+  --text-muted: #b9ccb5;
+  --accent-cyan: #38bdf8;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background-color: var(--bg-obsidian);
+  color: var(--text-main);
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+  user-select: none;
+}
+
+/* -----------------------------------------------------------------------------
+   Glassmorphism Surfaces
+   ----------------------------------------------------------------------------- */
+.glass-card {
+  background: rgba(24, 34, 29, 0.65);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border: 1px solid var(--mint-border);
+  box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.4), inset 0 1px 0 0 rgba(255, 255, 255, 0.04);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
+}
+
+.glass-card:hover {
+  border-color: rgba(0, 255, 102, 0.28);
+}
+
+.glass-input {
+  background: rgba(14, 24, 19, 0.7);
+  border: 1px solid rgba(140, 233, 154, 0.18);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: #fff;
+}
+
+.glass-input:focus {
+  border-color: var(--primary-emerald);
+  box-shadow: 0 0 14px rgba(0, 255, 102, 0.25);
+}
+
+/* -----------------------------------------------------------------------------
+   Bottom Navigation Bar
+   ----------------------------------------------------------------------------- */
+.nav-item {
+  color: var(--text-muted);
+  transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 9999px;
+}
+
+.nav-item.active {
+  background: #00ff66 !important;
+  color: #003911 !important;
+  box-shadow: 0 0 18px rgba(0, 255, 102, 0.45);
+  transform: scale(1.02);
+}
+
+.nav-item.active .material-symbols-outlined {
+  font-variation-settings: 'FILL' 1;
+}
+
+.nav-item:not(.active):hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* -----------------------------------------------------------------------------
+   Custom Liquid Range Sliders
+   ----------------------------------------------------------------------------- */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: #232c27;
+  height: 6px;
+  border-radius: 9999px;
+  outline: none;
+  transition: background 0.2s;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #00ff66;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0, 255, 102, 0.6);
+  border: 2px solid #09120e;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover,
+input[type="range"]::-webkit-slider-thumb:active {
+  transform: scale(1.2);
+  box-shadow: 0 0 16px rgba(0, 255, 102, 0.9);
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #00ff66;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0, 255, 102, 0.6);
+  border: 2px solid #09120e;
+}
+
+/* -----------------------------------------------------------------------------
+   Animations & Keyframes
+   ----------------------------------------------------------------------------- */
+@keyframes scaleUp {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-scale-up {
+  animation: scaleUp 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(0, 255, 102, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(0, 255, 102, 0.6);
+  }
+}
+
+.pulse-glow {
+  animation: pulseGlow 2.5s infinite ease-in-out;
+}
+
+/* Smooth Fade Screen Transition */
+.screen-view {
+  animation: fadeIn 0.2s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Mini Trend Sparkline Bar Transitions */
+[id^="spark-"] > div {
+  transition: height 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #09120e;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #232c27;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3b4b3a;
+}

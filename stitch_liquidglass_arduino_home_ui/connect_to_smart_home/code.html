@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Smart Home - Connection</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "tertiary-container": "#95f2a2",
+            "tertiary-fixed": "#9af7a7",
+            "on-error": "#690005",
+            "on-primary-container": "#007128",
+            "tertiary": "#edffea",
+            "surface-container-low": "#141d19",
+            "surface-container-lowest": "#07100c",
+            "outline": "#849581",
+            "surface-container-high": "#232c27",
+            "on-primary-fixed": "#002107",
+            "on-tertiary": "#003915",
+            "on-error-container": "#ffdad6",
+            "inverse-on-surface": "#29322e",
+            "secondary-fixed-dim": "#afceb8",
+            "on-primary-fixed-variant": "#00531b",
+            "inverse-primary": "#006e27",
+            "surface-container": "#18221d",
+            "on-primary": "#003911",
+            "on-tertiary-fixed-variant": "#005321",
+            "on-secondary-container": "#9ebca7",
+            "on-tertiary-fixed": "#002109",
+            "outline-variant": "#3b4b3a",
+            "error-container": "#93000a",
+            "inverse-surface": "#dbe5de",
+            "on-background": "#dbe5de",
+            "primary-container": "#00ff66",
+            "on-tertiary-container": "#047130",
+            "surface-dim": "#0c1511",
+            "primary-fixed": "#6bff83",
+            "secondary-fixed": "#caead4",
+            "on-secondary": "#1b3627",
+            "secondary": "#afceb8",
+            "on-secondary-fixed": "#042013",
+            "error": "#ffb4ab",
+            "on-secondary-fixed-variant": "#314d3c",
+            "secondary-container": "#314d3c",
+            "surface": "#0c1511",
+            "on-surface-variant": "#b9ccb5",
+            "background": "#0c1511",
+            "surface-bright": "#323b36",
+            "primary-fixed-dim": "#00e55b",
+            "primary": "#edffe8",
+            "on-surface": "#dbe5de",
+            "tertiary-fixed-dim": "#7eda8d",
+            "surface-tint": "#00e55b",
+            "surface-variant": "#2d3732",
+            "surface-container-highest": "#2d3732"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-lg": "1.75rem",
+            "space-sm": "0.5rem",
+            "space-md": "1rem",
+            "space-xs": "0.25rem",
+            "gutter": "1.5rem",
+            "space-xl": "3rem",
+            "margin": "2rem"
+          },
+          "fontFamily": {
+            "headline-sm": ["Space Grotesk"],
+            "label-sm": ["Inter"],
+            "label-md": ["Inter"],
+            "headline-lg-mobile": ["Space Grotesk"],
+            "body-md": ["Inter"],
+            "body-sm": ["Inter"],
+            "headline-md": ["Space Grotesk"],
+            "headline-lg": ["Space Grotesk"],
+            "label-lg": ["Inter"],
+            "body-lg": ["Inter"]
+          },
+          "fontSize": {
+            "headline-sm": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+            "label-sm": ["10px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "600" }],
+            "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+            "headline-lg-mobile": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "body-md": ["15px", { "lineHeight": "22px", "fontWeight": "400" }],
+            "body-sm": ["13px", { "lineHeight": "18px", "fontWeight": "400" }],
+            "headline-md": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "500" }],
+            "headline-lg": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+            "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+            "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }]
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col justify-between relative overflow-x-hidden selection:bg-primary-container selection:text-on-primary-container">
+<!-- Atmospheric Glow Background Elements -->
+<div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-primary-container/10 rounded-full blur-[120px] pointer-events-none"></div>
+<div class="absolute bottom-10 right-10 w-80 h-80 bg-tertiary-container/5 rounded-full blur-[100px] pointer-events-none"></div>
+<!-- Top App Bar Shell -->
+<header class="w-full px-4 py-3 bg-surface/40 dark:bg-surface/40 backdrop-blur-3xl shadow-sm flex justify-between items-center z-40">
+<div class="flex items-center gap-space-sm">
+<span class="text-headline-sm font-headline-sm font-bold text-on-surface dark:text-inverse-surface">Smart Home</span>
+</div>
+<div class="flex items-center">
+<button aria-label="Notifications" class="p-2 rounded-full text-on-surface-variant dark:text-surface-variant hover:bg-surface-variant/50 dark:hover:bg-inverse-surface/50 transition-all duration-200 active:scale-98">
+<span class="material-symbols-outlined text-xl">notifications</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 flex items-center justify-center px-gutter py-space-xl z-10">
+<div class="w-full max-w-md bg-surface-container/60 dark:bg-surface-container/40 backdrop-blur-2xl border border-white/10 rounded-xl p-space-lg shadow-2xl shadow-primary/5 flex flex-col items-center text-center">
+<!-- App Identity Badge -->
+<div class="inline-flex items-center gap-space-xs px-space-md py-space-xs rounded-full bg-surface-variant/50 border border-white/5 mb-space-md shadow-inner">
+<span class="material-symbols-outlined text-primary-container animate-pulse" data-icon="wifi" style="font-variation-settings: 'FILL' 1;">wifi</span>
+<span class="text-label-md font-label-md text-on-surface tracking-wide">Network Discovery</span>
+</div>
+<!-- Headline & Subtitle -->
+<h1 class="text-headline-lg-mobile md:text-headline-lg font-headline-lg text-on-surface mb-space-xs">Home</h1>
+<p class="text-body-md font-body-md text-on-surface-variant mb-space-lg">Connect to your smart home</p>
+<!-- Connection Form -->
+<div class="w-full flex flex-col gap-space-md text-left">
+<!-- Input Field Container -->
+<div class="flex flex-col gap-space-xs">
+<label class="text-label-md font-label-md text-on-surface-variant ml-space-xs" for="ip-address">Arduino IP Address</label>
+<div class="relative flex items-center">
+<span class="absolute left-space-md text-outline pointer-events-none flex items-center">
+<span class="material-symbols-outlined text-xl" data-icon="router">router</span>
+</span>
+<input class="w-full bg-surface-container-highest/80 border border-outline-variant/50 focus:border-primary-container focus:ring-1 focus:ring-primary-container rounded-lg py-3 pl-12 pr-4 text-on-surface placeholder:text-outline text-body-md transition-all duration-200 outline-none shadow-inner" id="ip-address" placeholder="192.168.1.100" type="text"/>
+</div>
+</div>
+<!-- Auto-discover Toggle Option -->
+<div class="flex items-center justify-between px-space-xs py-space-xs">
+<div class="flex flex-col">
+<span class="text-body-md font-body-md text-on-surface">Auto-discover network</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">Automatically scan local subnet</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+</div>
+<!-- Submit Button -->
+<button class="mt-space-sm w-full py-3.5 px-space-md rounded-lg bg-gradient-to-r from-primary-container to-tertiary-fixed-dim text-on-primary-fixed font-label-lg text-label-lg font-semibold shadow-lg shadow-primary-container/20 hover:shadow-primary-container/40 hover:scale-[1.01] active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-space-xs group">
+<span>Connect</span>
+<span class="material-symbols-outlined text-lg group-hover:translate-x-1 transition-transform duration-200" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+</main>
+<!-- Floating Frosted Glass Bottom Bar -->
+<nav aria-label="Bottom Navigation" class="fixed bottom-0 left-0 right-0 z-50 flex justify-around items-center px-4 py-2 mx-4 mb-4 rounded-full backdrop-blur-3xl bg-surface/30 border border-white/10 shadow-lg shadow-secondary/10 md:hidden">
+<a class="flex flex-col items-center justify-center bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary rounded-full p-3 transition-transform duration-200 active:scale-95" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="home" style="font-variation-settings: 'FILL' 1;">home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant p-3 hover:text-on-surface dark:hover:text-inverse-on-surface transition-transform duration-200 active:scale-95" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="meeting_room">meeting_room</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant p-3 hover:text-on-surface dark:hover:text-inverse-on-surface transition-transform duration-200 active:scale-95" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="bolt">bolt</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant p-3 hover:text-on-surface dark:hover:text-inverse-on-surface transition-transform duration-200 active:scale-95" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="settings">settings</span>
+</a>
+</nav>
+</body></html>
